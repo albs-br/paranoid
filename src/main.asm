@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.0.1
+; v.0.0.2
 ; Proof of concept for GB homebrew game development
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com

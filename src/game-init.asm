@@ -87,12 +87,16 @@ GameInit:
 	call	mem_SetVRAM
 
 	
-; Print a string in the screen
-	ld	hl,Title
-	ld	de, _SCRN0 + 3 + (SCRN_VY_B * 0)
+; Print some strings in the screen
+	ld	hl, Title
+	ld	de, _SCRN0 + (SCRN_VY_B * 0)
 	ld	bc, TitleEnd-Title
 	call	mem_CopyVRAM
 	
+	ld	hl, Title
+	ld	de, _SCRN0 + (SCRN_VY_B * 16) + 16
+	ld	bc, TitleEnd-Title
+	call	mem_CopyVRAM
 
 ; test - show all 256 chars
 ; 	ld	a, 0
