@@ -19,15 +19,15 @@ GameInit:
 
 
 ; Load font tiles
-	ld	hl, FontsTile
-	ld	de, _VRAM		; $8000
-	ld	bc, 8*256 		; the ASCII character set: 256 characters, each with 8 bytes of display data
+	ld	    hl, FontsTile
+	ld	    de, _VRAM		; $8000
+	ld	    bc, 8*256 		; the ASCII character set: 256 characters, each with 8 bytes of display data
 	call	mem_CopyMono	; load tile data
 	
 ; Load tiles
-	ld	hl, Tiles
-	ld	de, _VRAM		; $8000
-	ld	bc, EndTiles - Tiles
+	ld	    hl, Tiles
+	ld	    de, _VRAM		; $8000
+	ld	    bc, EndTiles - Tiles
 	call	mem_CopyVRAM
 	
 ; Set sprites
@@ -81,11 +81,29 @@ GameInit:
 
 
 ; Fill all background with blank tiles
-	ld	    a, 8; 32		; ASCII FOR BLANK SPACE
-	ld	    hl, _SCRN0
-	ld	    bc, SCRN_VX_B * SCRN_VY_B
-	call	mem_SetVRAM
+	; ld	    a, 32		                ; ASCII FOR BLANK SPACE
+	; ld	    hl, _SCRN0
+	; ld	    bc, SCRN_VX_B * SCRN_VY_B
+	; call	mem_SetVRAM
 
+; Fill all background with a sequence of 3 tiles (8, 9 and 10)
+	ld      hl, _SCRN0
+    ld      a, 8
+    ld	    bc, SCRN_VX_B * SCRN_VY_B
+.loop1:	
+    ld	    [hl+], a                    ; since screen is off, we can write to VRAM without constraints
+    inc     a
+    cp      11
+    jp      nz, .notSetTile8
+
+    ld      a, 8
+.notSetTile8:
+    ld      d, a
+    dec     bc
+    ld      a, b
+    or      c                           ; check if bc == 0
+    ld      a, d
+    jp      nz, .loop1
 	
 ; Print some strings in the screen
 	ld	hl, Title

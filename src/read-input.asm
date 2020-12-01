@@ -1,14 +1,5 @@
 ReadInput:
 
-
-    ; first, we wait for the VBlank, since we can not change
-    ; VRAM out of it, or weird things will
-; .wait:
-;     ld      a, [rLY]
-;     cp      145
-;     jr      nz, .wait
-	
-
 	call ReadJoypad
 	
 	; ld 		a, [_PAD]
@@ -45,8 +36,8 @@ PaddleLeft:
 	ld	    a, [_PADDLE_X]
     ;dec     a
     sub     a, 3
-    cp      8                               ; first visible collumn is 8
-    jp      nc, .continue                   ; if a >= 8
+    cp      8
+    jp      nc, .continue                   ; if a >= n
 	
     ld      a, 8                            ; set min X
 .continue:
@@ -57,8 +48,8 @@ PaddleRight:
 	ld	    a, [_PADDLE_X]
     ;inc     a
     add     a, 3
-    cp      LAST_COLUMN - (PADDLE_WIDTH)                 ; first visible collumn is 8
-    jp      c, .continue                   ; if a < 160 - (3*8) + 8
+    cp      LAST_COLUMN - (PADDLE_WIDTH)
+    jp      c, .continue                   ; if a < n
 
     ld      a, LAST_COLUMN - (PADDLE_WIDTH)
 .continue:

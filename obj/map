@@ -4,8 +4,8 @@ ROM Bank #0 (HOME):
   SECTION: $0050-$0050 ($0001 bytes) ["Timer_Overflow"]
   SECTION: $0058-$0058 ($0001 bytes) ["Serial"]
   SECTION: $0060-$0060 ($0001 bytes) ["p1thru4"]
-  SECTION: $0100-$0CD3 ($0BD4 bytes) ["start"]
-           $0B8E = begin
+  SECTION: $0100-$0D04 ($0C05 bytes) ["start"]
+           $0BBF = begin
            $0179 = StopLCD.wait
            $01BA = Delay
            $01BF = Delay.loop
@@ -18,34 +18,40 @@ ROM Bank #0 (HOME):
            $0175 = StopLCD
            $0186 = ClearVRAM
            $0191 = ClearOAM
-           $038C = FontsTile
-           $0BB8 = Tiles
-           $0CB8 = EndTiles
-           $0BB0 = Title
-           $0BB8 = TitleEnd
+           $03BD = FontsTile
+           $0BE9 = Tiles
+           $0CE9 = EndTiles
+           $0290 = GameInit.notSetTile8
+           $0287 = GameInit.loop1
+           $0BE1 = Title
+           $0BE9 = TitleEnd
            $019D = FadeIn
-           $02C1 = UpdateSprites
-           $02BC = UpdateVram.scrollLeft
-           $036F = CollisionCheck_Ball_Paddle
-           $0313 = GameLogic.continue
-           $02FD = GameLogic.bounceSideOfPaddle
-           $030E = GameLogic.bounceTopOfPaddle
-           $033E = GameLogic.bounceTop
-           $036B = GameLogic.ballLost
-           $034D = GameLogic.bounceLeft
-           $035C = GameLogic.bounceRight
-           $0379 = CollisionCheck_Ball_Paddle.x1IsLarger
-           $037F = CollisionCheck_Ball_Paddle.checkVerticalCollision
-           $0386 = CollisionCheck_Ball_Paddle.y1IsLarger
+           $02F2 = UpdateSprites
+           $02CB = UpdateVram.scrollLeft
+           $02CF = UpdateVram.blinkBg
+           $02E5 = UpdateVram.setTile8Dark
+           $0C69 = Tiles.pointLighter
+           $0C89 = Tiles.pointDark
+           $03A0 = CollisionCheck_Ball_Paddle
+           $0344 = GameLogic.continue
+           $032E = GameLogic.bounceSideOfPaddle
+           $033F = GameLogic.bounceTopOfPaddle
+           $036F = GameLogic.bounceTop
+           $039C = GameLogic.ballLost
+           $037E = GameLogic.bounceLeft
+           $038D = GameLogic.bounceRight
+           $03AA = CollisionCheck_Ball_Paddle.x1IsLarger
+           $03B0 = CollisionCheck_Ball_Paddle.checkVerticalCollision
+           $03B7 = CollisionCheck_Ball_Paddle.y1IsLarger
            $0208 = GameInit
            $01D4 = ReadInput
-           $02DE = GameLogic
-           $0B9C = GameLoop.waitVBlank
-           $02A9 = UpdateVram
-           $0B96 = GameLoop
-           $0BAB = wait
-           $0CC5 = SCXEffect.makeScroll
-           $0CB8 = SCXEffect
+           $030F = GameLogic
+           $0BCD = GameLoop.waitVBlank
+           $02B7 = UpdateVram
+           $0BC7 = GameLoop
+           $0BDC = wait
+           $0CF6 = SCXEffect.makeScroll
+           $0CE9 = SCXEffect
   SECTION: $0061-$00B6 ($0056 bytes) ["Memory1 Code"]
            $0066 = mem_Set.skip
            $0065 = mem_Set.loop
@@ -60,9 +66,9 @@ ROM Bank #0 (HOME):
            $008B = mem_SetVRAM
            $007B = mem_CopyMono
            $00A1 = mem_CopyVRAM
-           $0061 = mem_Set
            $006D = mem_Copy
-    SLACK: $33D1 bytes
+           $0061 = mem_Set
+    SLACK: $33A0 bytes
 
 WRAM Bank #0:
   EMPTY
