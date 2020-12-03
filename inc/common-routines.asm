@@ -33,7 +33,7 @@ ReadJoypad:
     ; we now have at A, the state of all, we complement and
     ; store it in the variable
     cpl
-    ld      [_PAD], a
+    ld      [_JOYPAD_STATE], a
     ; return
     ret
 

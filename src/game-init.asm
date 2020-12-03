@@ -30,9 +30,10 @@ GameInit:
 	ld	    bc, EndTiles - Tiles
 	call	mem_CopyVRAM
 	
+	
 ; Set sprites
     ; Paddle
-    ld      a, 144                              ; first visible line is 16
+    ld      a, PADDLE_Y                              ; first visible line is 16
     ld      [_SPR0_Y], a     
     ld      [_SPR1_Y], a     
     ld      [_SPR2_Y], a     
@@ -44,6 +45,13 @@ GameInit:
     inc     a
     ld      [_SPR2_NUM], a
 
+    ; Bit7   OBJ-to-BG Priority (0=OBJ Above BG, 1=OBJ Behind BG color 1-3)
+    ;         (Used for both BG and Window. BG color 0 is always behind OBJ)
+    ; Bit6   Y flip          (0=Normal, 1=Vertically mirrored)
+    ; Bit5   X flip          (0=Normal, 1=Horizontally mirrored)
+    ; Bit4   Palette number  **Non CGB Mode Only** (0=OBP0, 1=OBP1)
+    ; Bit3   Tile VRAM-Bank  **CGB Mode Only**     (0=Bank 0, 1=Bank 1)
+    ; Bit2-0 Palette number  **CGB Mode Only**     (OBP0-7)
     ;ld      a, OAMF_PRI|OAMF_YFLIP|OAMF_XFLIP|OAMF_PAL0
     ;ld      a, OAMF_YFLIP|OAMF_PAL1
     ld      a, %00000000
@@ -58,25 +66,24 @@ GameInit:
     ld      a, %00000000
     ld      [_SPR3_ATT], a
 
-    ; configure and activate the display
-    ld      a, LCDCF_ON|LCDCF_BG8000|LCDCF_BG9800|LCDCF_BGON|LCDCF_OBJ8|LCDCF_OBJON
+; set window position
+    ld      a, 7
+    ld      [rWX], a
+    ld      a, 136
+    ld      [rWY], a
+
+; configure and activate the display
+    ; Bit	Name	                            Usage notes
+    ; 7	    LCD Display Enable	                0=Off, 1=On
+    ; 6	    Window Tile Map Display Select	    0=9800-9BFF, 1=9C00-9FFF
+    ; 5	    Window Display Enable	            0=Off, 1=On
+    ; 4	    BG & Window Tile Data Select	    0=8800-97FF, 1=8000-8FFF
+    ; 3	    BG Tile Map Display Select	        0=9800-9BFF, 1=9C00-9FFF
+    ; 2	    OBJ (Sprite) Size	                0=Off, 1=On
+    ; 1	    OBJ (Sprite) Display Enable	        0=Off, 1=On
+    ; 0	    BG/Window Display/Priority	        0=Off, 1=On
+    ld      a, LCDCF_ON|LCDCF_WIN9C00|LCDCF_WINON|LCDCF_BG8000|LCDCF_BG9800|LCDCF_OBJ8|LCDCF_OBJON|LCDCF_BGON
     ld      [rLCDC], a
-
-
-
-; set initial values for variables
-    ld      a, SCREEN_WIDTH/2 - (PADDLE_WIDTH/2) + FIRST_COLUMN
-    ld      [_PADDLE_X], a
-
-    ld      a, SCREEN_WIDTH/2 - BALL_WIDTH/2 + FIRST_COLUMN  ; horizontal center of screen
-    ld      [_BALL_X], a     
-    ld      a, SCREEN_WIDTH/2
-    ld      [_BALL_Y], a  
-
-    ld      a, -2
-    ld      [_BALL_DELTA_X], a  
-    ld      a, -2
-    ld      [_BALL_DELTA_Y], a  
 
 
 
@@ -128,6 +135,29 @@ GameInit:
 ; 	inc a
 ; 	;cp 0
 ; 	jp nz, .loop
+
+; Fill all window with tiles
+	ld	    a, 1
+	ld	    hl, _SCRN1
+	ld	    bc, SCRN_VX_B * SCRN_VY_B
+	call	mem_SetVRAM
+
+
+
+; set initial values for variables
+    ld      a, SCREEN_WIDTH/2 - (PADDLE_WIDTH/2) + FIRST_COLUMN
+    ld      [_PADDLE_X], a
+
+    ld      a, SCREEN_WIDTH/2 - BALL_WIDTH/2 + FIRST_COLUMN  ; horizontal center of screen
+    ld      [_BALL_X], a     
+    ld      a, SCREEN_WIDTH/2
+    ld      [_BALL_Y], a  
+
+    ld      a, -2
+    ld      [_BALL_DELTA_X], a  
+    ld      a, -2
+    ld      [_BALL_DELTA_Y], a  
+
 
 
 	call FadeIn

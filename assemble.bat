@@ -15,6 +15,6 @@ echo linking...
 
 if errorlevel 1 goto end
 echo fixing...
-"C:\Users\albs_\OneDrive\Desktop\GB Dev\rgbds-0.3.9-win64\win64\rgbfix.exe" -v obj\%1.gb
+"C:\Users\albs_\OneDrive\Desktop\GB Dev\rgbds-0.3.9-win64\win64\rgbfix.exe" -v -p 0xFF obj\%1.gb
 
 :end

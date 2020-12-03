@@ -1,10 +1,12 @@
-_PAD		    EQU		_RAM 	            ; joypad state
+_JOYPAD_STATE	DB
 
-_PADDLE_X       EQU     _RAM + 1
+_PADDLE_X       DB
 
-_BALL_X         EQU     _RAM + 2
-_BALL_Y         EQU     _RAM + 3
-_BALL_DELTA_X   EQU     _RAM + 4
-_BALL_DELTA_Y   EQU     _RAM + 5
+_BALL_X         DB
+_BALL_Y         DB
+_BALL_DELTA_X   DB
+_BALL_DELTA_Y   DB
 
-_COUNTER        EQU     _RAM + 6
+_COUNTER        DB
+
+_IS_PAUSED      DB

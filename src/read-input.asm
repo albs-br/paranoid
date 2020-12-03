@@ -10,13 +10,17 @@ ReadInput:
 	; and		PADF_DOWN
 	; call nz, scrollDown
 	
-	ld 		a, [_PAD]
+	ld 		a, [_JOYPAD_STATE]
 	and		PADF_LEFT
 	call nz, PaddleLeft
 	
-	ld 		a, [_PAD]
+	ld 		a, [_JOYPAD_STATE]
 	and		PADF_RIGHT
 	call nz, PaddleRight
+	
+	; ld 		a, [_PAD]
+	; and		PADF_START
+	; call nz, Pause
 	
 	ret
     
@@ -55,6 +59,15 @@ PaddleRight:
 .continue:
 	ld	    [_PADDLE_X], a
 	ret
+
+
+; Pause:
+; 	ld	    a, [_IS_PAUSED]
+; 	or		a ; same as cp 0
+; .continue:
+; 	ld	    [_PADDLE_X], a
+; 	ret
+
 
 
 ; ; test move scroll

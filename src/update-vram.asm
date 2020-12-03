@@ -1,10 +1,18 @@
 UpdateVram:
-    ld      a, [_COUNTER]
-    inc     a
-    ld      [_COUNTER], a
-    
-    
+    ; ld      a, [_COUNTER]
+    ; inc     a
+    ; ld      [_COUNTER], a
+    ld      hl, _COUNTER
+    inc     [hl]
+
+
+; Window scroll
+    ; ld      hl, rWX
+    ; dec     [hl]
+
+
 ; Background scroll
+    ld      [_COUNTER], a
     and     %11100000
     or      a               ; same as cp 0
     jp      z, .scrollLeft

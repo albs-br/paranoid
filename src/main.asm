@@ -1,11 +1,16 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.1.0
+; v.0.2.0
 ; Proof of concept for GB homebrew game development
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
 INCLUDE "oam.inc"
 
 INCLUDE "ibmpc1.inc" ; ASCII character set from devrs.com
+
+
+
+SECTION "RAM", WRAM0
+INCLUDE "src/ram-variables.asm"
 
 ; We are going to keep interrupts disabled for this program.
 ; However, it is good practice to leave the reserved memory locations for interrupts with
@@ -22,12 +27,9 @@ SECTION	"Serial",ROM0[$0058]
 SECTION	"p1thru4",ROM0[$0060]
 	reti
 
-;SECTION "RAM", WRAM0
-
 SECTION	"start",ROM0[$0100]
 	nop
 	jp	begin
-
 
 
 
@@ -38,7 +40,7 @@ SECTION	"start",ROM0[$0100]
 	ROM_HEADER	ROM_NOMBC, ROM_SIZE_32KBYTE, RAM_SIZE_0KBYTE
 
 INCLUDE "src/constants.asm"
-INCLUDE "src/ram-variables.asm"
+; INCLUDE "src/ram-variables.asm"
 INCLUDE "memory.asm"
 INCLUDE "common-routines.asm"
 INCLUDE "src/read-input.asm"
