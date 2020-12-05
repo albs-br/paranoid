@@ -6,42 +6,61 @@ GameLogic:
     ; ld      hl, _BALL_Y         ; 21 t-states
     ; inc     [hl]
 
+    call CheckCollisions
+    call UpdateBallPosition
+    call UpdateItemPosition
+
+    ret
 
 
-    ld      a, [_BALL_X]
+
+UpdateItemPosition:
+    ; update item x position
+    ld      a, [_ITEM_1_DELTA_X]
     ld      b, a
-    ld      a, [_BALL_Y]
-    ld      c, a
-    ld      a, [_PADDLE_X]
-    ld      d, a
-    ld      e, PADDLE_Y
-    call    CollisionCheck_Ball_Paddle
-    jp      nc, .continue
-    
-    ; Collision between ball and paddle
-    ld      a, [_BALL_Y]
-    cp      PADDLE_Y
-    jp      nc, .bounceSideOfPaddle                   ; if a >= n
-    jp      .bounceTopOfPaddle
+    ld      a, [_ITEM_1_X]
+    add     a, b
+    ld      [_ITEM_1_X], a
+    cp      FIRST_COLUMN
+    jp      c, .bounceLeft           ; if a < 8
 
-.bounceSideOfPaddle:
-    ld      a, [_BALL_DELTA_X]
+    cp      LAST_COLUMN - ITEM_WIDTH
+    jp      nc, .bounceRight         ; if a >= n
+
+    ret
+
+.bounceLeft:
+    ld      a, 8
+    ld      [_ITEM_1_X], a
+
+    ld      a, [_ITEM_1_DELTA_X]
+    
     ; emulate neg instruction
     ld      b, a
     xor     a                               ; same as ld a, 0
     sub     a, b
-    ld      [_BALL_DELTA_X], a
 
-    ld      a, PADDLE_Y + BALL_HEIGHT
-    ld      [_BALL_Y], a
+    ld      [_ITEM_1_DELTA_X], a
 
-    jp      .continue
+    ret
 
-.bounceTopOfPaddle:
-    ld      a, -2
-    ld      [_BALL_DELTA_Y], a
+.bounceRight:
+    ld      a, LAST_COLUMN - ITEM_WIDTH
+    ld      [_ITEM_1_X], a
 
-.continue:
+    ld      a, [_ITEM_1_DELTA_X]
+    
+    ; emulate neg instruction
+    ld      b, a
+    xor     a                               ; same as ld a, 0
+    sub     a, b
+
+    ld      [_ITEM_1_DELTA_X], a
+
+    ret
+
+    
+UpdateBallPosition:
     ; update ball y position
     ld      a, [_BALL_DELTA_Y]
     ld      b, a
@@ -55,7 +74,7 @@ GameLogic:
     jp      nc, .ballLost           ; if a >= n
 
 
-
+    ; update ball x position
     ld      a, [_BALL_DELTA_X]
     ld      b, a
     ld      a, [_BALL_X]
@@ -121,6 +140,44 @@ GameLogic:
 
 
 
+CheckCollisions:
+    ld      a, [_BALL_X]
+    ld      b, a
+    ld      a, [_BALL_Y]
+    ld      c, a
+    ld      a, [_PADDLE_X]
+    ld      d, a
+    ld      e, PADDLE_Y
+    call    CheckCollision_Ball_Paddle
+    ret      nc
+    
+    ; Collision between ball and paddle
+    ld      a, [_BALL_Y]
+    cp      PADDLE_Y
+    jp      nc, .bounceSideOfPaddle                   ; if a >= n
+    jp      .bounceTopOfPaddle
+
+.bounceSideOfPaddle:
+    ld      a, [_BALL_DELTA_X]
+    ; emulate neg instruction
+    ld      b, a
+    xor     a                               ; same as ld a, 0
+    sub     a, b
+    ld      [_BALL_DELTA_X], a
+
+    ld      a, PADDLE_Y + BALL_HEIGHT
+    ld      [_BALL_Y], a
+
+    ret
+
+.bounceTopOfPaddle:
+    ld      a, -2
+    ld      [_BALL_DELTA_Y], a
+
+    ret
+
+
+
 ;  Calculates whether a collision occurs between two objects
 ;  of a fixed size
 ; IN: 
@@ -132,7 +189,7 @@ GameLogic:
 ;    WIDTH1, HEIGHT1, WIDTH2, HEIGHT2
 ; OUT: Carry set if collision
 ; CHANGES: AF
-CollisionCheck_Ball_Paddle:
+CheckCollision_Ball_Paddle:
 
 ;Constants definition:
 WIDTH1      EQU 8

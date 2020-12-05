@@ -66,6 +66,13 @@ GameInit:
     ld      a, %00000000
     ld      [_SPR3_ATT], a
 
+    ;item
+    ld      a, 11
+    ld      [_SPR4_NUM], a
+
+    ld      a, %00000000
+    ld      [_SPR4_ATT], a
+
 ; set window position
     ld      a, 7
     ld      [rWX], a
@@ -144,21 +151,7 @@ GameInit:
 
 
 
-; set initial values for variables
-    ld      a, SCREEN_WIDTH/2 - (PADDLE_WIDTH/2) + FIRST_COLUMN
-    ld      [_PADDLE_X], a
-
-    ld      a, SCREEN_WIDTH/2 - BALL_WIDTH/2 + FIRST_COLUMN  ; horizontal center of screen
-    ld      [_BALL_X], a     
-    ld      a, SCREEN_WIDTH/2
-    ld      [_BALL_Y], a  
-
-    ld      a, -2
-    ld      [_BALL_DELTA_X], a  
-    ld      a, -2
-    ld      [_BALL_DELTA_Y], a  
-
-
+    call InitVariables
 
 	call FadeIn
 

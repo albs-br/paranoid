@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.2.0
+; v.0.3.0
 ; Proof of concept for GB homebrew game development
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
@@ -40,11 +40,11 @@ SECTION	"start",ROM0[$0100]
 	ROM_HEADER	ROM_NOMBC, ROM_SIZE_32KBYTE, RAM_SIZE_0KBYTE
 
 INCLUDE "src/constants.asm"
-; INCLUDE "src/ram-variables.asm"
 INCLUDE "memory.asm"
 INCLUDE "common-routines.asm"
 INCLUDE "src/read-input.asm"
 INCLUDE "src/game-init.asm"
+INCLUDE "src/init-variables.asm"
 INCLUDE "src/update-vram.asm"
 INCLUDE "src/update-sprites.asm"
 INCLUDE "src/game-logic.asm"

@@ -18,3 +18,8 @@ _SPR3_X     EQU     _OAMRAM + 13
 _SPR3_NUM   EQU     _OAMRAM + 14
 _SPR3_ATT   EQU     _OAMRAM + 15
 
+_SPR4_Y     EQU     _OAMRAM + 16
+_SPR4_X     EQU     _OAMRAM + 17
+_SPR4_NUM   EQU     _OAMRAM + 18
+_SPR4_ATT   EQU     _OAMRAM + 19
+

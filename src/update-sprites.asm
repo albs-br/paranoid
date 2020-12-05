@@ -13,4 +13,9 @@ UpdateSprites:
     ld      a, [_BALL_Y]
     ld      [_SPR3_Y], a
 
+    ld      a, [_ITEM_1_X]
+    ld      [_SPR4_X], a
+    ld      a, [_ITEM_1_Y]
+    ld      [_SPR4_Y], a
+
     ret
