@@ -10,3 +10,4 @@ PADDLE_Y           EQU     136
 PADDLE_WIDTH       EQU     3 * 8
 
 ITEM_WIDTH         EQU     8
+ITEM_HEIGHT         EQU     8

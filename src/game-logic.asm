@@ -6,7 +6,8 @@ GameLogic:
     ; ld      hl, _BALL_Y         ; 21 t-states
     ; inc     [hl]
 
-    call CheckCollisions
+    call CheckCollision_Ball_Paddle
+    call CheckCollision_Ball_Item
     call UpdateBallPosition
     call UpdateItemPosition
 
@@ -140,7 +141,7 @@ UpdateBallPosition:
 
 
 
-CheckCollisions:
+CheckCollision_Ball_Paddle:
     ld      a, [_BALL_X]
     ld      b, a
     ld      a, [_BALL_Y]
@@ -148,14 +149,20 @@ CheckCollisions:
     ld      a, [_PADDLE_X]
     ld      d, a
     ld      e, PADDLE_Y
-    call    CheckCollision_Ball_Paddle
+    call    CheckCollision_8x8_8x24
     ret      nc
     
     ; Collision between ball and paddle
     ld      a, [_BALL_Y]
     cp      PADDLE_Y
     jp      nc, .bounceSideOfPaddle                   ; if a >= n
-    jp      .bounceTopOfPaddle
+    ;jp      .bounceTopOfPaddle
+
+.bounceTopOfPaddle:
+    ld      a, -2
+    ld      [_BALL_DELTA_Y], a
+
+    ret
 
 .bounceSideOfPaddle:
     ld      a, [_BALL_DELTA_X]
@@ -170,13 +177,64 @@ CheckCollisions:
 
     ret
 
-.bounceTopOfPaddle:
+
+
+
+
+CheckCollision_Ball_Item:
+    ld      a, [_BALL_X]
+    ld      b, a
+    ld      a, [_BALL_Y]
+    ld      c, a
+    ld      a, [_ITEM_1_X]
+    ld      d, a
+    ld      a, [_ITEM_1_Y]
+    ld      e, a
+    call    CheckCollision_8x8_8x8
+    ret      nc
+    
+    ; Collision between ball and item
+    ld      a, [_ITEM_1_Y]
+    ld      b, a
+    ld      a, [_BALL_Y]
+    cp      b
+    jp      nc, .bounceBottomOfItem                   ; if a >= n
+    ;jp      .bounceTopOfItem
+
+.bounceTopOfItem:
     ld      a, -2
     ld      [_BALL_DELTA_Y], a
+
+    ; ld      a, [_ITEM_1_Y]
+    ; ld      [_BALL_Y], a
+
+    ret
+
+.bounceBottomOfItem:
+    ld      a, [_BALL_DELTA_Y]
+    ; emulate neg instruction
+    ld      b, a
+    xor     a                               ; same as ld a, 0
+    sub     a, b
+    ld      [_BALL_DELTA_Y], a
+
+    ;ld      a, PADDLE_Y + BALL_HEIGHT
+    ld      a, [_ITEM_1_Y]
+    add     ITEM_HEIGHT
+    ld      [_BALL_Y], a
 
     ret
 
 
+
+WIDTH1      EQU 8
+HEIGHT1      EQU 8
+
+;WIDTH 2:
+WIDTH24      EQU 24
+WIDTH8      EQU 8
+
+HEIGHT2      EQU 8
 
 ;  Calculates whether a collision occurs between two objects
 ;  of a fixed size
@@ -189,13 +247,9 @@ CheckCollisions:
 ;    WIDTH1, HEIGHT1, WIDTH2, HEIGHT2
 ; OUT: Carry set if collision
 ; CHANGES: AF
-CheckCollision_Ball_Paddle:
+CheckCollision_8x8_8x24:
 
 ;Constants definition:
-WIDTH1      EQU 8
-HEIGHT1      EQU 8
-WIDTH2      EQU 24
-HEIGHT2      EQU 8
 
         ld      a, d                        ; get x2
         sub     b                           ; calculate x2 - x1
@@ -210,7 +264,55 @@ HEIGHT2      EQU 8
         xor     a                           ; same as ld a, 0
         sub     a, b
     
-        sub    WIDTH2                       ; compare with size 2
+        sub    WIDTH24                       ; compare with size 2
+        ret    nc                           ; return if no collision
+
+.checkVerticalCollision:
+        ld      a, e                        ; get y2
+        sub     c                           ; calculate y2 - y1
+        jr      c,.y1IsLarger               ; jump if y2 < y1
+        sub     HEIGHT1                     ; compare with size 1
+        ret                                 ; return collision or no collision
+.y1IsLarger:
+        ;neg                                ; use negative value (Z80)
+        ; emulate neg instruction (Gameboy)
+        ld      c, a
+        xor     a                           ; same as ld a, 0
+        sub     a, c
+    
+        sub    HEIGHT2                      ; compare with size 2
+        ret                                 ; return collision or no collision
+
+
+
+
+;  Calculates whether a collision occurs between two objects
+;  of a fixed size
+; IN: 
+;    b = x1
+;    c = y1
+;    d = x2
+;    e = y2
+; Constants:
+;    WIDTH1, HEIGHT1, WIDTH2, HEIGHT2
+; OUT: Carry set if collision
+; CHANGES: AF
+CheckCollision_8x8_8x8:
+
+        ld      a, d                        ; get x2
+        sub     b                           ; calculate x2 - x1
+        jr      c,.x1IsLarger               ; jump if x2 < x1
+        sub     WIDTH1                      ; compare with size 1
+        ret     nc                          ; return if no collision
+        jp      .checkVerticalCollision
+.x1IsLarger:
+        ;neg                                ; use negative value (Z80)
+        ; emulate neg instruction (Gameboy)
+        ld      b, a
+        xor     a                           ; same as ld a, 0
+        sub     a, b
+    
+        sub    WIDTH8                       ; compare with size 2
         ret    nc                           ; return if no collision
 
 .checkVerticalCollision:
