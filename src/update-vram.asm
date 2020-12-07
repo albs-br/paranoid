@@ -6,27 +6,10 @@ UpdateVram:
     inc     [hl]
 
 
-; Window scroll
-    ; ld      hl, rWX
-    ; dec     [hl]
+    call WindowScroll
+    call BackgroundScroll
 
-
-; Background scroll
-    ld      a, [_COUNTER]
-    and     %11100000
-    or      a               ; same as cp 0
-    jp      z, .scrollLeft
-
-    ; Scrool up
-    ld      hl, rSCY         ; 21 t-states
-    inc     [hl]
-
-    ;jp      .blinkBg
     ret
-
-.scrollLeft:
-    ld      hl, rSCX         ; 21 t-states
-    inc     [hl]
 
 ; TRY TO BLINK POINTS IN BG (NOT WORKING AS EXPECTED)
 ; .blinkBg:
@@ -51,3 +34,39 @@ UpdateVram:
 ; 	call	mem_Copy
 
 ;     ret
+
+WindowScroll:
+    ld      a, [rWX]
+    cp      0
+    jp      z, .resetRWX
+    dec     a
+    jp      .notResetRWX
+.resetRWX:
+    ld      a, 7
+.notResetRWX:
+    ld      [rWX], a
+
+    ret
+
+
+
+BackgroundScroll:
+    ld      a, [_COUNTER]
+    and     %11100000
+    or      a               ; same as cp 0
+    jp      z, .scrollUpLeft
+
+    ; Scrool up
+    ld      hl, rSCY         ; 21 t-states
+    inc     [hl]
+
+    ;jp      .blinkBg
+    ret
+
+.scrollUpLeft:
+    ld      hl, rSCX         ; 21 t-states
+    inc     [hl]
+    ld      hl, rSCY         ; 21 t-states
+    dec     [hl]
+
+    ret

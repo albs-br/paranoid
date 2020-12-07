@@ -4,8 +4,8 @@ ROM Bank #0 (HOME):
   SECTION: $0050-$0050 ($0001 bytes) ["Timer_Overflow"]
   SECTION: $0058-$0058 ($0001 bytes) ["Serial"]
   SECTION: $0060-$0060 ($0001 bytes) ["p1thru4"]
-  SECTION: $0100-$0DBE ($0CBF bytes) ["start"]
-           $0C69 = begin
+  SECTION: $0100-$0DDA ($0CDB bytes) ["start"]
+           $0C85 = begin
            $0179 = StopLCD.wait
            $01BA = Delay
            $01BF = Delay.loop
@@ -18,46 +18,50 @@ ROM Bank #0 (HOME):
            $0175 = StopLCD
            $0186 = ClearVRAM
            $0191 = ClearOAM
-           $0467 = FontsTile
-           $0C93 = Tiles
-           $0DA3 = EndTiles
+           $0483 = FontsTile
+           $0CAF = Tiles
+           $0DBF = EndTiles
            $0289 = GameInit.notSetTile8
            $0280 = GameInit.loop1
-           $0C8B = Title
-           $0C93 = TitleEnd
+           $0CA7 = Title
+           $0CAF = TitleEnd
            $02BE = InitVariables
            $019D = FadeIn
-           $0301 = UpdateSprites
-           $02FD = UpdateVram.scrollLeft
-           $03C7 = CheckCollision_Ball_Paddle
-           $03F6 = CheckCollision_Ball_Item
-           $036B = UpdateBallPosition
-           $0337 = UpdateItemPosition
-           $034D = UpdateItemPosition.bounceLeft
-           $035C = UpdateItemPosition.bounceRight
-           $0396 = UpdateBallPosition.bounceTop
-           $03C3 = UpdateBallPosition.ballLost
-           $03A5 = UpdateBallPosition.bounceLeft
-           $03B4 = UpdateBallPosition.bounceRight
-           $042D = CheckCollision_8x8_8x24
-           $03E7 = CheckCollision_Ball_Paddle.bounceSideOfPaddle
-           $044A = CheckCollision_8x8_8x8
-           $041B = CheckCollision_Ball_Item.bounceBottomOfItem
-           $0437 = CheckCollision_8x8_8x24.x1IsLarger
-           $043D = CheckCollision_8x8_8x24.checkVerticalCollision
-           $0444 = CheckCollision_8x8_8x24.y1IsLarger
-           $0454 = CheckCollision_8x8_8x8.x1IsLarger
-           $045A = CheckCollision_8x8_8x8.checkVerticalCollision
-           $0461 = CheckCollision_8x8_8x8.y1IsLarger
+           $031D = UpdateSprites
+           $02F6 = WindowScroll
+           $0306 = BackgroundScroll
+           $0301 = WindowScroll.resetRWX
+           $0303 = WindowScroll.notResetRWX
+           $0314 = BackgroundScroll.scrollUpLeft
+           $03E3 = CheckCollision_Ball_Paddle
+           $0412 = CheckCollision_Ball_Item
+           $0387 = UpdateBallPosition
+           $0353 = UpdateItemPosition
+           $0369 = UpdateItemPosition.bounceLeft
+           $0378 = UpdateItemPosition.bounceRight
+           $03B2 = UpdateBallPosition.bounceTop
+           $03DF = UpdateBallPosition.ballLost
+           $03C1 = UpdateBallPosition.bounceLeft
+           $03D0 = UpdateBallPosition.bounceRight
+           $0449 = CheckCollision_8x8_8x24
+           $0403 = CheckCollision_Ball_Paddle.bounceSideOfPaddle
+           $0466 = CheckCollision_8x8_8x8
+           $0437 = CheckCollision_Ball_Item.bounceBottomOfItem
+           $0453 = CheckCollision_8x8_8x24.x1IsLarger
+           $0459 = CheckCollision_8x8_8x24.checkVerticalCollision
+           $0460 = CheckCollision_8x8_8x24.y1IsLarger
+           $0470 = CheckCollision_8x8_8x8.x1IsLarger
+           $0476 = CheckCollision_8x8_8x8.checkVerticalCollision
+           $047D = CheckCollision_8x8_8x8.y1IsLarger
            $0208 = GameInit
            $01D4 = ReadInput
-           $032A = GameLogic
-           $0C77 = GameLoop.waitVBlank
+           $0346 = GameLogic
+           $0C93 = GameLoop.waitVBlank
            $02EB = UpdateVram
-           $0C71 = GameLoop
-           $0C86 = wait
-           $0DB0 = SCXEffect.makeScroll
-           $0DA3 = SCXEffect
+           $0C8D = GameLoop
+           $0CA2 = wait
+           $0DCC = SCXEffect.makeScroll
+           $0DBF = SCXEffect
   SECTION: $0061-$00B6 ($0056 bytes) ["Memory1 Code"]
            $0066 = mem_Set.skip
            $0065 = mem_Set.loop
@@ -74,7 +78,7 @@ ROM Bank #0 (HOME):
            $00A1 = mem_CopyVRAM
            $0061 = mem_Set
            $006D = mem_Copy
-    SLACK: $32E6 bytes
+    SLACK: $32CA bytes
 
 WRAM Bank #0:
   SECTION: $C000-$C00A ($000B bytes) ["RAM"]
