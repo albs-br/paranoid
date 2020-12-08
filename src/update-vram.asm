@@ -1,10 +1,4 @@
 UpdateVram:
-    ; ld      a, [_COUNTER]
-    ; inc     a
-    ; ld      [_COUNTER], a
-    ld      hl, _COUNTER
-    inc     [hl]
-
 
     call WindowScroll
     call BackgroundScroll

@@ -67,7 +67,7 @@ GameInit:
     ld      [_SPR3_ATT], a
 
     ;item
-    ld      a, 11
+    ld      a, 12
     ld      [_SPR4_NUM], a
 
     ld      a, %00000000
@@ -155,6 +155,6 @@ GameInit:
 
 	call FadeIn
 
-    call UpdateSprites
+    call UpdateOAMRam
 
     ret

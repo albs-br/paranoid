@@ -1,5 +1,5 @@
 
-UpdateSprites:
+UpdateOAMRam:
 
     ld      a, [_PADDLE_X]
     ld      [_SPR0_X], a

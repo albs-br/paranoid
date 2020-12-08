@@ -6,6 +6,10 @@ GameLogic:
     ; ld      hl, _BALL_Y         ; 21 t-states
     ; inc     [hl]
 
+    ; Increment counter
+    ld      hl, _COUNTER
+    inc     [hl]
+
     call CheckCollision_Ball_Paddle
     call CheckCollision_Ball_Item
     call UpdateBallPosition

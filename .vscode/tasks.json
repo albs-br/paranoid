@@ -9,7 +9,11 @@
             "command": "assemble",
                 "args": [
                     {
-                        "value": "main",
+                        "value": "main",        // input (entrypoint assembly source file - .asm extension)
+                        "quoting": "weak"
+                    },
+                    {
+                        "value": "paranoid",    // output (.GB ROM file ready to use)
                         "quoting": "weak"
                     }
                 ],

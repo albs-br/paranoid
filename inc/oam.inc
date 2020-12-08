@@ -1,25 +1,25 @@
-_SPR0_Y     EQU     _OAMRAM 		; sprite Y 0 is the beginning of the sprite mem
-_SPR0_X     EQU     _OAMRAM + 1
-_SPR0_NUM   EQU     _OAMRAM + 2
-_SPR0_ATT   EQU     _OAMRAM + 3
+_SPR0_Y          DB
+_SPR0_X          DB
+_SPR0_NUM        DB
+_SPR0_ATT        DB
 
-_SPR1_Y     EQU     _OAMRAM + 4
-_SPR1_X     EQU     _OAMRAM + 5
-_SPR1_NUM   EQU     _OAMRAM + 6
-_SPR1_ATT   EQU     _OAMRAM + 7
+_SPR1_Y          DB
+_SPR1_X          DB
+_SPR1_NUM        DB
+_SPR1_ATT        DB
 
-_SPR2_Y     EQU     _OAMRAM + 8
-_SPR2_X     EQU     _OAMRAM + 9
-_SPR2_NUM   EQU     _OAMRAM + 10
-_SPR2_ATT   EQU     _OAMRAM + 11
+_SPR2_Y          DB
+_SPR2_X          DB
+_SPR2_NUM        DB
+_SPR2_ATT        DB
 
-_SPR3_Y     EQU     _OAMRAM + 12
-_SPR3_X     EQU     _OAMRAM + 13
-_SPR3_NUM   EQU     _OAMRAM + 14
-_SPR3_ATT   EQU     _OAMRAM + 15
+_SPR3_Y          DB
+_SPR3_X          DB
+_SPR3_NUM        DB
+_SPR3_ATT        DB
 
-_SPR4_Y     EQU     _OAMRAM + 16
-_SPR4_X     EQU     _OAMRAM + 17
-_SPR4_NUM   EQU     _OAMRAM + 18
-_SPR4_ATT   EQU     _OAMRAM + 19
+_SPR4_Y          DB
+_SPR4_X          DB
+_SPR4_NUM        DB
+_SPR4_ATT        DB
 

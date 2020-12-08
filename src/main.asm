@@ -1,11 +1,16 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.5.0
+; v.0.6.0
 ; Proof of concept for GB homebrew game development
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
-INCLUDE "oam.inc"
+;INCLUDE "oam.inc"
 
 INCLUDE "ibmpc1.inc" ; ASCII character set from devrs.com
+
+
+
+SECTION "OAMRAM", OAM
+INCLUDE "oam.inc"
 
 
 
@@ -73,29 +78,27 @@ GameLoop:
 
 .waitVBlank:
     ld      a, [rLY]
-    cp      145
+    cp      145					; first line of Vblank (144 (0x90) -> 153 (0x99) is the VBlank period.)
     jr      nz, .waitVBlank
 
 	call UpdateVram
-	call UpdateSprites
+	call UpdateOAMRam
+
+	; testing speed
+	; copying n bytes from RAM to VRAM
+	; ld	    hl, Tiles
+	; ld	    de, _VRAM		; $8000
+	; ld	    bc, 72						;72 is the max (ending at line 152)
+	; call	mem_Copy
+
+    ; code to check how many lines on Vblank were used
+	ld      a, [rLY]
+    ld      [_SPR0_X], a
 
 	jp GameLoop
 
 
 
-
-
-; ****************************************************************************************
-; Prologue
-; Wait patiently 'til somebody kills you
-; ****************************************************************************************
-; Since we have accomplished our goal, we now have nothing
-; else to do. As a result, we just Jump to a label that
-; causes an infinite loop condition to occur.
-wait:
-	halt
-	nop
-	jr	wait
 	
 ; ****************************************************************************************
 ; hard-coded data
@@ -114,7 +117,7 @@ SCXEffect:
 	jp nc, .makeScroll	; if a >= 60
 
 ;don't make scroll
-	xor a; ld a, 0
+	xor a				; same as ld a, 0
 	ld [rSCX], a
 	jp SCXEffect	
 	

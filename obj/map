@@ -4,7 +4,7 @@ ROM Bank #0 (HOME):
   SECTION: $0050-$0050 ($0001 bytes) ["Timer_Overflow"]
   SECTION: $0058-$0058 ($0001 bytes) ["Serial"]
   SECTION: $0060-$0060 ($0001 bytes) ["p1thru4"]
-  SECTION: $0100-$0DDA ($0CDB bytes) ["start"]
+  SECTION: $0100-$0D9A ($0C9B bytes) ["start"]
            $0C85 = begin
            $0179 = StopLCD.wait
            $01BA = Delay
@@ -20,19 +20,19 @@ ROM Bank #0 (HOME):
            $0191 = ClearOAM
            $0483 = FontsTile
            $0CAF = Tiles
-           $0DBF = EndTiles
+           $0D7F = EndTiles
            $0289 = GameInit.notSetTile8
            $0280 = GameInit.loop1
            $0CA7 = Title
            $0CAF = TitleEnd
            $02BE = InitVariables
            $019D = FadeIn
-           $031D = UpdateSprites
-           $02F6 = WindowScroll
-           $0306 = BackgroundScroll
-           $0301 = WindowScroll.resetRWX
-           $0303 = WindowScroll.notResetRWX
-           $0314 = BackgroundScroll.scrollUpLeft
+           $0319 = UpdateOAMRam
+           $02F2 = WindowScroll
+           $0302 = BackgroundScroll
+           $02FD = WindowScroll.resetRWX
+           $02FF = WindowScroll.notResetRWX
+           $0310 = BackgroundScroll.scrollUpLeft
            $03E3 = CheckCollision_Ball_Paddle
            $0412 = CheckCollision_Ball_Item
            $0387 = UpdateBallPosition
@@ -55,13 +55,12 @@ ROM Bank #0 (HOME):
            $047D = CheckCollision_8x8_8x8.y1IsLarger
            $0208 = GameInit
            $01D4 = ReadInput
-           $0346 = GameLogic
+           $0342 = GameLogic
            $0C93 = GameLoop.waitVBlank
            $02EB = UpdateVram
            $0C8D = GameLoop
-           $0CA2 = wait
-           $0DCC = SCXEffect.makeScroll
-           $0DBF = SCXEffect
+           $0D8C = SCXEffect.makeScroll
+           $0D7F = SCXEffect
   SECTION: $0061-$00B6 ($0056 bytes) ["Memory1 Code"]
            $0066 = mem_Set.skip
            $0065 = mem_Set.loop
@@ -78,7 +77,7 @@ ROM Bank #0 (HOME):
            $00A1 = mem_CopyVRAM
            $0061 = mem_Set
            $006D = mem_Copy
-    SLACK: $32CA bytes
+    SLACK: $330A bytes
 
 WRAM Bank #0:
   SECTION: $C000-$C00A ($000B bytes) ["RAM"]
@@ -122,7 +121,28 @@ VRAM Bank #1:
   EMPTY
 
 OAM:
-  EMPTY
+  SECTION: $FE00-$FE13 ($0014 bytes) ["OAMRAM"]
+           $FE00 = _SPR0_Y
+           $FE04 = _SPR1_Y
+           $FE08 = _SPR2_Y
+           $FE02 = _SPR0_NUM
+           $FE06 = _SPR1_NUM
+           $FE0A = _SPR2_NUM
+           $FE03 = _SPR0_ATT
+           $FE07 = _SPR1_ATT
+           $FE0B = _SPR2_ATT
+           $FE0E = _SPR3_NUM
+           $FE0F = _SPR3_ATT
+           $FE12 = _SPR4_NUM
+           $FE13 = _SPR4_ATT
+           $FE01 = _SPR0_X
+           $FE05 = _SPR1_X
+           $FE09 = _SPR2_X
+           $FE0D = _SPR3_X
+           $FE0C = _SPR3_Y
+           $FE11 = _SPR4_X
+           $FE10 = _SPR4_Y
+    SLACK: $008C bytes
 
 HRAM:
   EMPTY
