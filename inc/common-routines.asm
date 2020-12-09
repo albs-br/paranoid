@@ -139,3 +139,28 @@ CollisionCheck_8b:
         ret                    ; return result                [11]
 
 
+
+
+
+
+;* Random # - Calculate as you go *
+; (Allocate 3 bytes of ram labeled 'Seed')
+; Exit: A = 0-255, random number
+; http://devrs.com/gb/files/random.txt
+; RandomNumber:
+;         ld      hl, Seed
+;         ld      a, [hl+]
+;         sra     a
+;         sra     a
+;         sra     a
+;         xor     [hl]
+;         inc     hl
+;         rra
+;         rl      [hl]
+;         dec     hl
+;         rl      [hl]
+;         dec     hl
+;         rl      [hl]
+;         ld      a, [$fff4]          ; get divider register to increase randomness
+;         add     [hl]
+;         ret

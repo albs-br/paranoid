@@ -14,3 +14,5 @@ _IS_PAUSED              DB
 _ITEM_1_X               DB
 _ITEM_1_Y               DB
 _ITEM_1_DELTA_X         DB
+
+VblnkFlag               DB

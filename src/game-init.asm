@@ -151,10 +151,15 @@ GameInit:
 
 
 
-    call InitVariables
+    call    InitVariables
 
-	call FadeIn
+	call    FadeIn
 
-    call UpdateOAMRam
+    ;call   UpdateOAMRam
+
+
+    ; Enable Vblank interrupts
+    ld      a, IEF_VBLANK
+    ld      [rIE], a
 
     ret
