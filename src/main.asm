@@ -1,6 +1,8 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.7.0
+; v.0.8.0
 ; Proof of concept for GB homebrew game development
+; Author: André Baptista (www.andrebaptista.com.br)
+; Nov-Dec 2020
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
 ;INCLUDE "oam.inc"
@@ -105,11 +107,11 @@ GameLoop:
 									; interrupted
 	nop 							; (See WARNING on http://marc.rawer.de/Gameboy/Docs/GBCPUman.pdf, page 20)
 
-	ld 		a, [VblnkFlag]
+	ld 		a, [VblankFlag]
 	or 		a 						; V-Blank interrupt ?
 	jr 		z, GameLoop 			; No, some other interrupt
 	xor 	a
-	ld 		[VblnkFlag], a 			; Clear V-Blank flag
+	ld 		[VblankFlag], a 			; Clear V-Blank flag
 	
 	call 	ReadInput
 	call 	GameLogic
@@ -162,7 +164,7 @@ VblankInt:
 	call	UpdateOAMRam
 	
 	ld 		a, 1
-	ld 		[VblnkFlag], a
+	ld 		[VblankFlag], a
 	
  	; ; testing speed
 	; ; copying n bytes from RAM to VRAM

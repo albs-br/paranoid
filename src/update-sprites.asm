@@ -17,5 +17,7 @@ UpdateOAMRam:
     ld      [_SPR4_X], a
     ld      a, [_ITEM_1_Y]
     ld      [_SPR4_Y], a
+    ld      a, [_ITEM_1_SPR_NUMBER]
+    ld      [_SPR4_NUM], a
 
     ret

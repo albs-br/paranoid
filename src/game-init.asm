@@ -67,9 +67,6 @@ GameInit:
     ld      [_SPR3_ATT], a
 
     ;item
-    ld      a, 12
-    ld      [_SPR4_NUM], a
-
     ld      a, %00000000
     ld      [_SPR4_ATT], a
 

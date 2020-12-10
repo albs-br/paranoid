@@ -10,16 +10,50 @@ GameLogic:
     ld      hl, _COUNTER
     inc     [hl]
 
-    call CheckCollision_Ball_Paddle
-    call CheckCollision_Ball_Item
     call UpdateBallPosition
     call UpdateItemPosition
+    call CheckCollision_Ball_Paddle
+    call CheckCollision_Ball_Item
 
     ret
 
 
 
 UpdateItemPosition:
+    ld      a, [_ITEM_1_STATE]
+    cp      0
+    ret     z
+    cp      FRAMES_ITEM_DEATH_ANIMATION
+    jp      z, .isAlive
+
+    ; check for animation end
+    dec     a
+    ld      [_ITEM_1_STATE], a
+    or      a   ; same as cp 0
+    jp      z, .hideItem
+
+    ; animation for death
+    ld      a, [_COUNTER]
+    and     %00000001
+    jp      z, .itemSprNumber255
+    ld      a, 12
+    ld      [_ITEM_1_SPR_NUMBER], a
+    ret
+.itemSprNumber255:
+    ld      a, 255
+    ld      [_ITEM_1_SPR_NUMBER], a
+    ret
+
+.hideItem:
+    ld      a, LAST_COLUMN
+    ld      [_ITEM_1_X], a
+    ld      a, LAST_LINE
+    ld      [_ITEM_1_Y], a
+    ld      a, 255
+    ld      [_ITEM_1_SPR_NUMBER], a
+    ret
+
+.isAlive:
     ; update item x position
     ld      a, [_ITEM_1_DELTA_X]
     ld      b, a
@@ -186,6 +220,13 @@ CheckCollision_Ball_Paddle:
 
 
 CheckCollision_Ball_Item:
+
+    ; check if the item is already dead or in death animation
+    ld      a, [_ITEM_1_STATE]
+    cp      FRAMES_ITEM_DEATH_ANIMATION
+    jp      z, .continue
+
+.continue:
     ld      a, [_BALL_X]
     ld      b, a
     ld      a, [_BALL_Y]
@@ -212,6 +253,8 @@ CheckCollision_Ball_Item:
     ; ld      a, [_ITEM_1_Y]
     ; ld      [_BALL_Y], a
 
+    call    ItemWasHit
+
     ret
 
 .bounceBottomOfItem:
@@ -227,9 +270,16 @@ CheckCollision_Ball_Item:
     add     ITEM_HEIGHT
     ld      [_BALL_Y], a
 
+    call    ItemWasHit
+
     ret
 
 
+
+ItemWasHit:
+    ld      a, FRAMES_ITEM_DEATH_ANIMATION - 1
+    ld      [_ITEM_1_STATE], a
+    ret
 
 WIDTH1      EQU 8
 HEIGHT1      EQU 8
