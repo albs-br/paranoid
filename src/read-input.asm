@@ -12,15 +12,15 @@ ReadInput:
 	
 	ld 		a, [_JOYPAD_STATE]
 	and		PADF_LEFT
-	call nz, PaddleLeft
+	call 	nz, PaddleLeft
 	
 	ld 		a, [_JOYPAD_STATE]
 	and		PADF_RIGHT
-	call nz, PaddleRight
+	call 	nz, PaddleRight
 	
-	; ld 		a, [_PAD]
+	; ld 		a, [_JOYPAD_STATE]
 	; and		PADF_START
-	; call nz, Pause
+	; call 	nz, Pause
 	
 	ret
     
@@ -61,11 +61,14 @@ PaddleRight:
 	ret
 
 
+; NOT FINISHED
 ; Pause:
 ; 	ld	    a, [_IS_PAUSED]
 ; 	or		a ; same as cp 0
-; .continue:
-; 	ld	    [_PADDLE_X], a
+; 	jp		z, .doPause
+; .doPause:
+; 	ld		a, 1
+; 	ld	    [_IS_PAUSED], a
 ; 	ret
 
 

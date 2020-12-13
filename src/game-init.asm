@@ -1,15 +1,34 @@
 GameInit:
 
+    ; Disable interrupts
+    ld      a, 0
+    ld      [rIE], a
+
 	ld	    a, %11100100 	; Window palette colors, from darkest to lightest
 	ld	    [rBGP], a		; CLEAR THE SCREEN
 
 	ld	    [rOBP0], a      ; and sprite palette 0
 
 
-	ld	    a,0			; SET SCREEN TO UPPER RIGHT HAND CORNER
+	ld	    a, 0			; SET SCREEN TO UPPER RIGHT HAND CORNER
 	ld	    [rSCX], a
 	ld	    [rSCY], a
 
+
+    ; Set STAT (LCD Status Register)
+    ; Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
+    ; Bit 5 - Mode 2 OAM Interrupt         (1=Enable) (Read/Write)
+    ; Bit 4 - Mode 1 V-Blank Interrupt     (1=Enable) (Read/Write)
+    ; Bit 3 - Mode 0 H-Blank Interrupt     (1=Enable) (Read/Write)
+    ; Bit 2 - Coincidence Flag  (0:LYC<>LY, 1:LYC=LY) (Read Only)
+    ; Bit 1-0 - Mode Flag       (Mode 0-3, see below) (Read Only)    
+    ld      a, STATF_LYC | STATF_MODE01
+    ld      [rSTAT], a
+
+    ; Set LYC register
+    ld      a, 40                   ; line to trigger the first interrupt
+    ld      [rLYC], a
+    
 
 
 	call	StopLCD		; YOU CAN NOT LOAD $8000 WITH LCD ON
@@ -73,7 +92,7 @@ GameInit:
 ; set window position
     ld      a, 7
     ld      [rWX], a
-    ld      a, 136
+    ld      a, 0 ;136
     ld      [rWY], a
 
 ; configure and activate the display
@@ -86,7 +105,7 @@ GameInit:
     ; 2	    OBJ (Sprite) Size	                0=Off, 1=On
     ; 1	    OBJ (Sprite) Display Enable	        0=Off, 1=On
     ; 0	    BG/Window Display/Priority	        0=Off, 1=On
-    ld      a, LCDCF_ON|LCDCF_WIN9C00|LCDCF_WINON|LCDCF_BG8000|LCDCF_BG9800|LCDCF_OBJ8|LCDCF_OBJON|LCDCF_BGON
+    ld      a, LCDCF_ON|LCDCF_WIN9C00|LCDCF_WINOFF|LCDCF_BG8000|LCDCF_BG9800|LCDCF_OBJ8|LCDCF_OBJON|LCDCF_BGON
     ld      [rLCDC], a
 
 
@@ -152,11 +171,10 @@ GameInit:
 
 	call    FadeIn
 
-    ;call   UpdateOAMRam
 
 
-    ; Enable Vblank interrupts
-    ld      a, IEF_VBLANK
+    ; Enable Vblank and LCDC interrupts
+    ld      a, IEF_VBLANK | IEF_LCDC
     ld      [rIE], a
 
     ret

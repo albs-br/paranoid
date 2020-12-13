@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.8.0
+; v.0.9.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
 ; Nov-Dec 2020
@@ -23,16 +23,15 @@ INCLUDE "src/ram-variables.asm"
 ; However, it is good practice to leave the reserved memory locations for interrupts with
 ; executable code. It make for a nice template as well to fill in code when we use interrupts
 ; in the future
-SECTION	"Vblank",ROM0[$0040]
+SECTION	"Vblank", ROM0[$0040]
 	jp	VblankInt
-	;reti
-SECTION	"LCDC",ROM0[$0048]
+SECTION	"LCDC", ROM0[$0048]
+	jp	LCDCInt
+SECTION	"Timer_Overflow", ROM0[$0050]
 	reti
-SECTION	"Timer_Overflow",ROM0[$0050]
+SECTION	"Serial", ROM0[$0058]
 	reti
-SECTION	"Serial",ROM0[$0058]
-	reti
-SECTION	"p1thru4",ROM0[$0060]
+SECTION	"p1thru4", ROM0[$0060]
 	reti
 
 SECTION	"start",ROM0[$0100]
@@ -118,6 +117,13 @@ GameLoop:
 	
  	call 	UpdateVram
 
+ 	; testing speed
+	; copying n bytes from RAM to VRAM
+	; ld	    hl, Tiles
+	; ld	    de, _VRAM		; $8000
+	; ld	    bc, 2048						;1024 bytes: no noticeable slowdown; 2048: very slow
+	; call	mem_Copy
+
 	jp 		GameLoop
 
 	
@@ -166,17 +172,67 @@ VblankInt:
 	ld 		a, 1
 	ld 		[VblankFlag], a
 	
- 	; ; testing speed
-	; ; copying n bytes from RAM to VRAM
-	; ld	    hl, Tiles
-	; ld	    de, _VRAM		; $8000
-	; ld	    bc, 80						;80 is the max (ending at line 152 - 0x98)
-	; call	mem_Copy
-
     ; ; code to check how many lines on Vblank were used
 	; ld      a, [rLY]
     ; ld      [_SPR0_X], a
-	
+
+	pop 	hl
+	pop 	de
+	pop 	bc
+	pop 	af
+
+	reti
+
+
+
+LCDCInt:
+	push 	af
+	push 	bc
+	push 	de
+	push 	hl
+
+    ; Read STAT (LCD Status Register)
+    ; Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
+    ; Bit 5 - Mode 2 OAM Interrupt         (1=Enable) (Read/Write)
+    ; Bit 4 - Mode 1 V-Blank Interrupt     (1=Enable) (Read/Write)
+    ; Bit 3 - Mode 0 H-Blank Interrupt     (1=Enable) (Read/Write)
+    ; Bit 2 - Coincidence Flag  (0:LYC<>LY, 1:LYC=LY) (Read Only)
+    ; Bit 1-0 - Mode Flag       (Mode 0-3, see below) (Read Only)    
+
+    ld      a, [rSTAT]
+	and		STATF_LYCF
+	jp		nz, .LYCequalLY
+	jp		.reti
+
+.LYCequalLY:
+
+	ld      a, [rLY]
+
+	cp      80             			; 
+	jp		z, .ly80				; 
+	cp      40             			; 
+    jp      z, .ly40         		; 
+
+.ly40:
+	; Enable window
+    ld      a, [rLCDC]				; load current value
+    set		5, a					; enable window
+    ld      [rLCDC], a				; save
+
+    ld      a, 80                   ; line to trigger the next interrupt
+    ld      [rLYC], a
+	jp		.reti
+
+.ly80:
+	; Disable window
+    ld      a, [rLCDC]				; load current value
+    res		5, a					; enable window
+    ld      [rLCDC], a				; save
+
+    ld      a, 40                   ; line to trigger the next interrupt
+    ld      [rLYC], a
+
+.reti:
 	pop 	hl
 	pop 	de
 	pop 	bc

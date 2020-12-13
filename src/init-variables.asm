@@ -2,6 +2,7 @@ InitVariables:
 ; set initial values for variables
     xor     a ; same as ld a, 0
     ld      [_COUNTER], a
+    ld      [_IS_PAUSED], a
 
     ld      a, SCREEN_WIDTH/2 - (PADDLE_WIDTH/2) + FIRST_COLUMN
     ld      [_PADDLE_X], a
