@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.9.0
+; v.0.10.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
 ; Nov-Dec 2020
@@ -199,7 +199,8 @@ LCDCInt:
     ; Bit 2 - Coincidence Flag  (0:LYC<>LY, 1:LYC=LY) (Read Only)
     ; Bit 1-0 - Mode Flag       (Mode 0-3, see below) (Read Only)    
 
-    ld      a, [rSTAT]
+    ; Check LYC=LY
+	ld      a, [rSTAT]
 	and		STATF_LYCF
 	jp		nz, .LYCequalLY
 	jp		.reti
@@ -208,28 +209,28 @@ LCDCInt:
 
 	ld      a, [rLY]
 
-	cp      80             			; 
-	jp		z, .ly80				; 
-	cp      40             			; 
-    jp      z, .ly40         		; 
+	cp      136
+	jp		z, .startOfBottomWindo
+	cp      8
+    jp      z, .endOfTopWindow
 
-.ly40:
+.endOfTopWindow:
+	; Disable window
+    ld      a, [rLCDC]				; load current value
+    res		5, a					; disable window
+    ld      [rLCDC], a				; save
+
+    ld      a, 136                  ; line to trigger the next interrupt
+    ld      [rLYC], a
+	jp		.reti
+
+.startOfBottomWindo:
 	; Enable window
     ld      a, [rLCDC]				; load current value
     set		5, a					; enable window
     ld      [rLCDC], a				; save
 
-    ld      a, 80                   ; line to trigger the next interrupt
-    ld      [rLYC], a
-	jp		.reti
-
-.ly80:
-	; Disable window
-    ld      a, [rLCDC]				; load current value
-    res		5, a					; enable window
-    ld      [rLCDC], a				; save
-
-    ld      a, 40                   ; line to trigger the next interrupt
+    ld      a, 8                    ; line to trigger the next interrupt
     ld      [rLYC], a
 
 .reti:

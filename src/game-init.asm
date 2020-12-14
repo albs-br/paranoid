@@ -105,7 +105,7 @@ GameInit:
     ; 2	    OBJ (Sprite) Size	                0=Off, 1=On
     ; 1	    OBJ (Sprite) Display Enable	        0=Off, 1=On
     ; 0	    BG/Window Display/Priority	        0=Off, 1=On
-    ld      a, LCDCF_ON|LCDCF_WIN9C00|LCDCF_WINOFF|LCDCF_BG8000|LCDCF_BG9800|LCDCF_OBJ8|LCDCF_OBJON|LCDCF_BGON
+    ld      a, LCDCF_ON|LCDCF_WIN9C00|LCDCF_WINON|LCDCF_BG8000|LCDCF_BG9800|LCDCF_OBJ8|LCDCF_OBJON|LCDCF_BGON
     ld      [rLCDC], a
 
 

@@ -67,8 +67,8 @@ ROM Bank #0 (HOME):
            $032E = UpdateOAMRam
            $0E03 = LCDCInt.LYCequalLY
            $0E26 = LCDCInt.reti
-           $0E1C = LCDCInt.ly80
-           $0E0F = LCDCInt.ly40
+           $0E1C = LCDCInt.startOfBottomWindo
+           $0E0F = LCDCInt.endOfTopWindow
   SECTION: $0061-$00B6 ($0056 bytes) ["Memory1 Code"]
            $0066 = mem_Set.skip
            $0065 = mem_Set.loop
