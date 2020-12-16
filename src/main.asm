@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.10.0
+; v.0.11.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
 ; Nov-Dec 2020
@@ -210,7 +210,7 @@ LCDCInt:
 	ld      a, [rLY]
 
 	cp      136
-	jp		z, .startOfBottomWindo
+	jp		z, .startOfBottomWindow
 	cp      8
     jp      z, .endOfTopWindow
 
@@ -224,7 +224,7 @@ LCDCInt:
     ld      [rLYC], a
 	jp		.reti
 
-.startOfBottomWindo:
+.startOfBottomWindow:
 	; Enable window
     ld      a, [rLCDC]				; load current value
     set		5, a					; enable window

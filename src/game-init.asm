@@ -92,7 +92,7 @@ GameInit:
 ; set window position
     ld      a, 7
     ld      [rWX], a
-    ld      a, 0 ;136
+    ld      a, 0
     ld      [rWY], a
 
 ; configure and activate the display
@@ -135,15 +135,15 @@ GameInit:
     ld      a, d
     jp      nz, .loop1
 	
-; Print some strings in the screen
-	ld	hl, Title
-	ld	de, _SCRN0 + (SCRN_VY_B * 0)
-	ld	bc, TitleEnd-Title
+; Print some strings on the screen
+	ld	    hl, Title
+	ld	    de, _SCRN0 + (SCRN_VY_B * 0)
+	ld	    bc, TitleEnd-Title
 	call	mem_CopyVRAM
 	
-	ld	hl, Title
-	ld	de, _SCRN0 + (SCRN_VY_B * 16) + 16
-	ld	bc, TitleEnd-Title
+	ld	    hl, Title
+	ld	    de, _SCRN0 + (SCRN_VY_B * 16) + 16
+	ld	    bc, TitleEnd-Title
 	call	mem_CopyVRAM
 
 ; test - show all 256 chars
@@ -165,6 +165,11 @@ GameInit:
 	ld	    bc, SCRN_VX_B * SCRN_VY_B
 	call	mem_SetVRAM
 
+; Write text on bottom window (not working)
+	; ld	    hl, Title
+	; ld	    de, _SCRN1 + (SCRN_VX_B * (SCRN_Y_B - 1))
+	; ld	    bc, TitleEnd - Title
+	; call	mem_CopyVRAM
 
 
     call    InitVariables

@@ -1,6 +1,6 @@
 UpdateVram:
 
-    call WindowScroll
+    ;call WindowScroll
     call BackgroundScroll
 
     ret
@@ -30,13 +30,14 @@ UpdateVram:
 ;     ret
 
 WindowScroll:
+;WARNING: WX values 0-6 and 166 are unreliable due to hardware bugs
     ld      a, [rWX]
-    cp      0
+    cp      23
     jp      z, .resetRWX
-    dec     a
+    inc     a
     jp      .notResetRWX
 .resetRWX:
-    ld      a, 7
+    ld      a, 15
 .notResetRWX:
     ld      [rWX], a
 

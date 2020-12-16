@@ -10,10 +10,10 @@ GameLogic:
     ld      hl, _COUNTER
     inc     [hl]
 
-    call UpdateBallPosition
-    call UpdateItemPosition
-    call CheckCollision_Ball_Paddle
-    call CheckCollision_Ball_Item
+    call    UpdateBallPosition
+    call    UpdateItemPosition
+    call    CheckCollision_Ball_Paddle
+    call    CheckCollision_Ball_Item
 
     ret
 
@@ -98,6 +98,7 @@ UpdateItemPosition:
 
     ret
 
+
     
 UpdateBallPosition:
     ; update ball y position
@@ -106,8 +107,12 @@ UpdateBallPosition:
     ld      a, [_BALL_Y]
     add     a, b
     ld      [_BALL_Y], a
-    cp      FIRST_LINE
-    jp      c, .bounceTop           ; if a < n
+
+    cp      FIRST_LINE + 8  ;bottom of bricks
+    jp      c, .checkBrickHit       ; if a < n
+
+    ; cp      FIRST_LINE
+    ; jp      c, .bounceTop           ; if a < n
 
     cp      144 + 16 + 1
     jp      nc, .ballLost           ; if a >= n
@@ -127,8 +132,27 @@ UpdateBallPosition:
 
     ret
 
+.checkBrickHit:
+    ; divide x by 8 to get the char position of the ball
+    ld      a, [_BALL_X]
+    sub     BALL_WIDTH / 2
+    srl     a
+    srl     a
+    srl     a
+
+    ; TODO: use variables (VRAM shouldn't be changed here)
+    ; change brick at the place
+	ld	    hl, _SCRN1
+    ld      bc, 0
+    ld      c, a
+    add     hl, bc
+	ld	    a, 0
+	ld	    bc, 1
+	call	mem_SetVRAM
+    ;ret
+
 .bounceTop:
-    ld      a, FIRST_LINE
+    ld      a, FIRST_LINE + 8   ;bottom of bricks
     ld      [_BALL_Y], a
 
     ld      a, [_BALL_DELTA_Y]
@@ -282,13 +306,13 @@ ItemWasHit:
     ret
 
 WIDTH1      EQU 8
-HEIGHT1      EQU 8
+HEIGHT1     EQU 8
 
 ;WIDTH 2:
-WIDTH24      EQU 24
+WIDTH24     EQU 24
 WIDTH8      EQU 8
 
-HEIGHT2      EQU 8
+HEIGHT2     EQU 8
 
 ;  Calculates whether a collision occurs between two objects
 ;  of a fixed size
@@ -318,7 +342,7 @@ CheckCollision_8x8_8x24:
         xor     a                           ; same as ld a, 0
         sub     a, b
     
-        sub    WIDTH24                       ; compare with size 2
+        sub    WIDTH24                      ; compare with size 2
         ret    nc                           ; return if no collision
 
 .checkVerticalCollision:
@@ -366,8 +390,8 @@ CheckCollision_8x8_8x8:
         xor     a                           ; same as ld a, 0
         sub     a, b
     
-        sub    WIDTH8                       ; compare with size 2
-        ret    nc                           ; return if no collision
+        sub     WIDTH8                      ; compare with size 2
+        ret     nc                          ; return if no collision
 
 .checkVerticalCollision:
         ld      a, e                        ; get y2
@@ -382,6 +406,6 @@ CheckCollision_8x8_8x8:
         xor     a                           ; same as ld a, 0
         sub     a, c
     
-        sub    HEIGHT2                      ; compare with size 2
+        sub     HEIGHT2                     ; compare with size 2
         ret                                 ; return collision or no collision
 
