@@ -10,7 +10,9 @@ GameLogic:
     ld      hl, _COUNTER
     inc     [hl]
 
+    ld      hl, _ITEM_1_X
     call    UpdateBallPosition
+
     call    UpdateItemPosition
     call    CheckCollision_Ball_Paddle
     call    CheckCollision_Ball_Item
@@ -18,17 +20,26 @@ GameLogic:
     ret
 
 
-
+; input: HL: addr of first property
 UpdateItemPosition:
-    ld      a, [_ITEM_1_STATE]
-    cp      0
-    ret     z
+
+    ; Copy properties from HL to temp variables
+    push    hl
+    ld      de, _ITEM_TEMP_X
+    ld      bc, NUM_PROPERTIES_ITEM
+    call    mem_Copy                        ; copy BC bytes from HL to DE
+
+
+
+    ld      a, [_ITEM_TEMP_STATE]
+    or      a   ; same as cp 0
+    jp      z, .return
     cp      FRAMES_ITEM_DEATH_ANIMATION
     jp      z, .isAlive
 
     ; check for animation end
     dec     a
-    ld      [_ITEM_1_STATE], a
+    ld      [_ITEM_TEMP_STATE], a
     or      a   ; same as cp 0
     jp      z, .hideItem
 
@@ -37,67 +48,75 @@ UpdateItemPosition:
     and     %00000001
     jp      z, .itemSprNumber255
     ld      a, 12
-    ld      [_ITEM_1_SPR_NUMBER], a
-    ret
+    ld      [_ITEM_TEMP_SPR_NUMBER], a
+    jp      .return
 .itemSprNumber255:
     ld      a, 255
-    ld      [_ITEM_1_SPR_NUMBER], a
-    ret
+    ld      [_ITEM_TEMP_SPR_NUMBER], a
+    jp      .return
 
 .hideItem:
     ld      a, LAST_COLUMN
-    ld      [_ITEM_1_X], a
+    ld      [_ITEM_TEMP_X], a
     ld      a, LAST_LINE
-    ld      [_ITEM_1_Y], a
+    ld      [_ITEM_TEMP_Y], a
     ld      a, 255
-    ld      [_ITEM_1_SPR_NUMBER], a
-    ret
+    ld      [_ITEM_TEMP_SPR_NUMBER], a
+    jp      .return
 
 .isAlive:
     ; update item x position
-    ld      a, [_ITEM_1_DELTA_X]
+    ld      a, [_ITEM_TEMP_DELTA_X]
     ld      b, a
-    ld      a, [_ITEM_1_X]
+    ld      a, [_ITEM_TEMP_X]
     add     a, b
-    ld      [_ITEM_1_X], a
+    ld      [_ITEM_TEMP_X], a
     cp      FIRST_COLUMN
-    jp      c, .bounceLeft           ; if a < 8
+    jp      c, .bounceLeft                  ; if a < 8
 
     cp      LAST_COLUMN - ITEM_WIDTH
-    jp      nc, .bounceRight         ; if a >= n
+    jp      nc, .bounceRight                ; if a >= n
 
-    ret
+    jp      .return
 
 .bounceLeft:
     ld      a, 8
-    ld      [_ITEM_1_X], a
+    ld      [_ITEM_TEMP_X], a
 
-    ld      a, [_ITEM_1_DELTA_X]
+    ld      a, [_ITEM_TEMP_DELTA_X]
     
     ; emulate neg instruction
     ld      b, a
     xor     a                               ; same as ld a, 0
     sub     a, b
 
-    ld      [_ITEM_1_DELTA_X], a
+    ld      [_ITEM_TEMP_DELTA_X], a
 
-    ret
+    jp      .return
 
 .bounceRight:
     ld      a, LAST_COLUMN - ITEM_WIDTH
-    ld      [_ITEM_1_X], a
+    ld      [_ITEM_TEMP_X], a
 
-    ld      a, [_ITEM_1_DELTA_X]
+    ld      a, [_ITEM_TEMP_DELTA_X]
     
     ; emulate neg instruction
     ld      b, a
     xor     a                               ; same as ld a, 0
     sub     a, b
 
-    ld      [_ITEM_1_DELTA_X], a
+    ld      [_ITEM_TEMP_DELTA_X], a
+
+    jp      .return
+
+.return:
+    ; Copy properties back from temp variables to HL
+    ld      hl, _ITEM_TEMP_X
+    pop     de
+    ld      bc, NUM_PROPERTIES_ITEM
+    call    mem_Copy                        ; copy BC bytes from HL to DE
 
     ret
-
 
     
 UpdateBallPosition:
@@ -140,15 +159,21 @@ UpdateBallPosition:
     srl     a
     srl     a
 
-    ; TODO: use variables (VRAM shouldn't be changed here)
+	; RESET ALL BRICKS
+    ; ld      a, 1                    ; number of tiles for bricks
+	; ld      hl, _BRICKS_TOP
+	; ld      bc, 20
+	; call    mem_Set                 ; Writes BC times the value in A, starting in HL
+
     ; change brick at the place
-	ld	    hl, _SCRN1
-    ld      bc, 0
-    ld      c, a
-    add     hl, bc
-	ld	    a, 0
-	ld	    bc, 1
-	call	mem_SetVRAM
+	ld	    hl, _BRICKS_TOP
+    ; ld      bc, 0
+    ; ld      c, a
+    ; add     hl, bc          ; add hl, a
+	ld	    a, 0            ; tile number
+    ld      [hl], a
+	; ld	    bc, 1
+	; call	mem_Set
     ;ret
 
 .bounceTop:

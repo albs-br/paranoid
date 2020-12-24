@@ -1,6 +1,7 @@
 
 UpdateOAMRam:
 
+    ; Paddle
     ld      a, [_PADDLE_X]
     ld      [_SPR0_X], a
     add     a, 8
@@ -8,11 +9,13 @@ UpdateOAMRam:
     add     a, 8
     ld      [_SPR2_X], a
 
+    ; Ball
     ld      a, [_BALL_X]
     ld      [_SPR3_X], a
     ld      a, [_BALL_Y]
     ld      [_SPR3_Y], a
 
+    ; Item 1
     ld      a, [_ITEM_1_X]
     ld      [_SPR4_X], a
     ld      a, [_ITEM_1_Y]

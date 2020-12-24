@@ -45,39 +45,47 @@ ReadJoypad:
 ; and wait until the LCD is off
 ; ****************************************************************************************
 StopLCD:
-        ld      a,[rLCDC]
+        ld      a, [rLCDC]
         rlca                    ; Put the high bit of LCDC into the Carry flag
         ret     nc              ; Screen is off already. Exit.
 
 ; Loop until we are in VBlank
 .wait:
-        ld      a,[rLY]
+        ld      a, [rLY]
         cp      145             ; Is display on scan line 145 yet?
-        jr      nz,.wait        ; no, keep waiting
+        jr      nz, .wait        ; no, keep waiting
 
 ; Turn off the LCD
-        ld      a,[rLCDC]
-        res     7,a             ; Reset bit 7 of LCDC
-        ld      [rLCDC],a
+        ld      a, [rLCDC]
+        res     7, a             ; Reset bit 7 of LCDC
+        ld      [rLCDC], a
 
         ret
 
 
 
+ClearRAM:
+	xor     a			; same as ld a, 0
+	ld      hl, _RAM
+	ld      bc, $E000 - $C000
+	call    mem_Set                 ; Writes BC times the value in A, starting in HL
+	ret
+
+
 ClearVRAM:
-	xor a				; same as ld a, 0
-	ld hl, _VRAM
-	ld bc, 8 * 1024
-	call mem_SetVRAM
+	xor     a			; same as ld a, 0
+	ld      hl, _VRAM
+	ld      bc, 8 * 1024
+	call    mem_SetVRAM             ; Writes BC times the value in A, starting in HL
 	ret
 
 
 
 ClearOAM:
-	ld a,0 ;xor a				; same as ld a, 0
-	ld hl, _OAMRAM
-	ld bc, 160 ;$a0
-	call mem_SetVRAM
+	xor     a			; same as ld a, 0
+	ld      hl, _OAMRAM
+	ld      bc, 160 ;$a0
+	call    mem_SetVRAM             ; Writes BC times the value in A, starting in HL
 	ret
 
 

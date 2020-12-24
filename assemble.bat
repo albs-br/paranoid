@@ -8,7 +8,7 @@ set assemble=1
 set rgbds_path=C:\Users\albs_\OneDrive\Desktop\GB Dev\rgbds-0.3.9-win64\win64\
 
 echo assembling...
-"%rgbds_path%rgbasm.exe" -v -iinc\ -oobj\%1.obj src\%1.asm
+"%rgbds_path%rgbasm.exe" -v -iinc\ -o obj\%1.obj src\%1.asm
 
 if errorlevel 1 goto end
 echo linking...

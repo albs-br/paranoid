@@ -33,6 +33,7 @@ GameInit:
 
 	call	StopLCD		; YOU CAN NOT LOAD $8000 WITH LCD ON
 	
+	call    ClearRAM
 	call    ClearVRAM
 	call    ClearOAM
 
@@ -163,7 +164,7 @@ GameInit:
 	ld	    a, 1
 	ld	    hl, _SCRN1
 	ld	    bc, SCRN_VX_B * SCRN_VY_B
-	call	mem_SetVRAM
+	call    mem_SetVRAM                ; Writes BC times the value in A, starting in HL
 
 ; Write text on bottom window (not working)
 	; ld	    hl, Title

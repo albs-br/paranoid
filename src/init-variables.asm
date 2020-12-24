@@ -31,4 +31,10 @@ InitVariables:
     ld      a, 12
     ld      [_ITEM_1_SPR_NUMBER], a
 
+
+	ld      a, 1                    ; number of tiles for bricks
+	ld      hl, _BRICKS_TOP
+	ld      bc, 20
+	call    mem_Set                 ; Writes BC times the value in A, starting in HL
+
     ret

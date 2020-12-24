@@ -1,11 +1,10 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.11.0
+; v.0.12.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
 ; Nov-Dec 2020
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
-;INCLUDE "oam.inc"
 
 INCLUDE "ibmpc1.inc" ; ASCII character set from devrs.com
 
@@ -225,6 +224,13 @@ LCDCInt:
 	jp		.reti
 
 .startOfBottomWindow:
+	; test doubling sprites
+    ld		a, 136+16
+	ld      [_SPR4_Y], a
+
+
+
+
 	; Enable window
     ld      a, [rLCDC]				; load current value
     set		5, a					; enable window
