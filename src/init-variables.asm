@@ -17,15 +17,30 @@ InitVariables:
     ld      a, -2
     ld      [_BALL_DELTA_Y], a  
 
+
     ld      hl, _ITEM_1_X
     ld      a, 8
     ld      b, 32
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord
+    ld      c, 12
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
 
     ld      hl, _ITEM_2_X
     ld      a, 24
-    ld      b, 48
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord
+    ld      b, 42
+    ld      c, 11
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+
+    ld      hl, _ITEM_3_X
+    ld      a, 16
+    ld      b, 52
+    ld      c, 13
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+
+    ld      hl, _ITEM_4_X
+    ld      a, 32
+    ld      b, 52
+    ld      c, 14
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
 
 
 	ld      a, 1                    ; number of tiles for bricks
@@ -48,7 +63,9 @@ InitVariables:
     ld      a, FRAMES_ITEM_DEATH_ANIMATION
     ld      [hl+], a                            ; _ITEM_n_STATE
 
-    ld      a, 12
+    ld      a, c
+    ld      [hl+], a                            ; _ITEM_n_TYPE
+
     ld      [hl], a                            ; _ITEM_n_SPR_NUMBER
 
     ret

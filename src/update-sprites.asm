@@ -31,4 +31,20 @@ UpdateOAMRam:
     ld      a, [_ITEM_2_SPR_NUMBER]
     ld      [_SPR5_NUM], a
 
+    ; Item 3
+    ld      a, [_ITEM_3_X]
+    ld      [_SPR6_X], a
+    ld      a, [_ITEM_3_Y]
+    ld      [_SPR6_Y], a
+    ld      a, [_ITEM_3_SPR_NUMBER]
+    ld      [_SPR6_NUM], a
+
+    ; Item 4
+    ld      a, [_ITEM_4_X]
+    ld      [_SPR7_X], a
+    ld      a, [_ITEM_4_Y]
+    ld      [_SPR7_Y], a
+    ld      a, [_ITEM_4_SPR_NUMBER]
+    ld      [_SPR7_NUM], a
+
     ret

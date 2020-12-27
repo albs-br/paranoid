@@ -28,10 +28,20 @@ Tiles:
 	DB $00,$00,$00,$00,$00,$00,$10,$10
 	DB $00,$00,$00,$00,$00,$00,$00,$00
 
+	; number 11 (heart)
 	DB $6C,$04,$92,$6E,$82,$7E,$82,$7E
 	DB $82,$7E,$44,$7C,$28,$38,$10,$10
 
+	; number 12 (pacman ghost)
 	DB $00,$7E,$66,$99,$66,$BB,$00,$FF
 	DB $3E,$FF,$3E,$FF,$00,$FF,$00,$D5
+
+	; number 13 (diamond)
+	DB $10,$08,$30,$0C,$70,$0E,$F0,$0F
+	DB $0F,$FF,$0E,$7E,$0C,$3C,$08,$18
+
+	; number 14 (mushroom?)
+	DB $3C,$3C,$42,$7E,$81,$FF,$81,$FF
+	DB $81,$FF,$FF,$FF,$7E,$42,$7E,$7E
 
 EndTiles:

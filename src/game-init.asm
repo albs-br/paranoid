@@ -87,12 +87,20 @@ GameInit:
     ld      [_SPR3_ATT], a
 
     ;item 1
-    ld      a, %00000000
+    ;ld      a, %00000000
     ld      [_SPR4_ATT], a
 
     ;item 2
-    ld      a, %00000000
+    ;ld      a, %00000000
     ld      [_SPR5_ATT], a
+
+    ;item 3
+    ;ld      a, %00000000
+    ld      [_SPR6_ATT], a
+
+    ;item 4
+    ;ld      a, %00000000
+    ld      [_SPR7_ATT], a
 
 ; set window position
     ld      a, 7

@@ -10,12 +10,20 @@ GameLogic:
     ld      hl, _COUNTER
     inc     [hl]
 
+
     ld      hl, _ITEM_1_X
     call    UpdateItemPosition
     ; call    CheckCollision_Ball_Item
 
     ld      hl, _ITEM_2_X
     call    UpdateItemPosition
+
+    ld      hl, _ITEM_3_X
+    call    UpdateItemPosition
+
+    ld      hl, _ITEM_4_X
+    call    UpdateItemPosition
+
 
     call    UpdateBallPosition
     call    CheckCollision_Ball_Paddle
@@ -51,7 +59,7 @@ UpdateItemPosition:
     ld      a, [_COUNTER]
     and     %00000001
     jp      z, .itemSprNumber255
-    ld      a, 12
+    ld      a, [_ITEM_TEMP_TYPE]
     ld      [_ITEM_TEMP_SPR_NUMBER], a
     jp      .return
 .itemSprNumber255:
