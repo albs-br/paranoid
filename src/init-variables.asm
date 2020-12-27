@@ -19,28 +19,74 @@ InitVariables:
 
 
     ld      hl, _ITEM_1_X
-    ld      a, 8
-    ld      b, 32
+    ld      a, 80
+    ld      b, 62
     ld      c, 12
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_2_X
-    ld      a, 24
+    ld      a, 80
     ld      b, 42
     ld      c, 11
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_3_X
     ld      a, 16
     ld      b, 52
     ld      c, 13
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_4_X
     ld      a, 32
     ld      b, 52
     ld      c, 14
-    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_5_X
+    ld      a, 16
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_6_X
+    ld      a, 32
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_7_X
+    ld      a, 48
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_8_X
+    ld      a, 64
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_9_X
+    ld      a, 80
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_10_X
+    ld      a, 96
+    ld      b, 32
+    ld      c, 12
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
 
 	ld      a, 1                    ; number of tiles for bricks
@@ -52,12 +98,11 @@ InitVariables:
 
 
 .InitItem:
-    ;ld      a, 8
     ld      [hl+], a                            ; _ITEM_n_X
     ld      a, b
     ld      [hl+], a                            ; _ITEM_n_Y
 
-    ld      a, -1
+    ld      a, d
     ld      [hl+], a                            ; _ITEM_n_DELTA_X
 
     ld      a, FRAMES_ITEM_DEATH_ANIMATION

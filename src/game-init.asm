@@ -86,21 +86,29 @@ GameInit:
     ld      a, %00000000
     ld      [_SPR3_ATT], a
 
-    ;item 1
-    ;ld      a, %00000000
-    ld      [_SPR4_ATT], a
+    ; ;item 1
+    ; ;ld      a, %00000000
+    ; ld      [_SPR4_ATT], a
 
-    ;item 2
-    ;ld      a, %00000000
-    ld      [_SPR5_ATT], a
+    ; ;item 2
+    ; ld      [_SPR5_ATT], a
 
-    ;item 3
-    ;ld      a, %00000000
-    ld      [_SPR6_ATT], a
+    ; ;item 3
+    ; ld      [_SPR6_ATT], a
 
-    ;item 4
-    ;ld      a, %00000000
-    ld      [_SPR7_ATT], a
+    ; ;item 4
+    ; ld      [_SPR7_ATT], a
+
+    ;loop through all items
+    ld      b, NUM_ITEMS            ; number of items
+    ld      hl, _SPR4_ATT           ; addr of first item
+    ld      de, 4                   ; size of attr table per sprite
+.loop:
+    ld      [hl], a                 ; set attribute for sprite
+    add     hl, de
+    dec     b
+    jp      nz, .loop
+    
 
 ; set window position
     ld      a, 7

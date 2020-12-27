@@ -11,18 +11,33 @@ GameLogic:
     inc     [hl]
 
 
-    ld      hl, _ITEM_1_X
-    call    UpdateItemPosition
-    ; call    CheckCollision_Ball_Item
+    ; ld      hl, _ITEM_1_X
+    ; call    UpdateItemPosition
+    ; ; call    CheckCollision_Ball_Item
 
-    ld      hl, _ITEM_2_X
-    call    UpdateItemPosition
+    ; ld      hl, _ITEM_2_X
+    ; call    UpdateItemPosition
 
-    ld      hl, _ITEM_3_X
-    call    UpdateItemPosition
+    ; ld      hl, _ITEM_3_X
+    ; call    UpdateItemPosition
 
-    ld      hl, _ITEM_4_X
+    ; ld      hl, _ITEM_4_X
+    ; call    UpdateItemPosition
+
+    ;loop through all items
+    ld      b, NUM_ITEMS            ; number of items
+    ld      hl, _ITEM_1_X           ; addr of first item
+.loop:
+    push    bc
+    push    hl
     call    UpdateItemPosition
+    ld      de, NUM_PROPERTIES_ITEM
+    pop     hl
+    add     hl, de
+    pop     bc
+    dec     b
+    jp      nz, .loop
+
 
 
     call    UpdateBallPosition
