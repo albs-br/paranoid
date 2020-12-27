@@ -26,6 +26,12 @@ _ITEM_1_DELTA_X            DB
 _ITEM_1_STATE              DB
 _ITEM_1_SPR_NUMBER         DB
 
+_ITEM_2_X                  DB
+_ITEM_2_Y                  DB
+_ITEM_2_DELTA_X            DB
+_ITEM_2_STATE              DB
+_ITEM_2_SPR_NUMBER         DB
+
 VblankFlag                 DB
 
 _BRICKS_TOP                DS      20           ; Allocates n bytes

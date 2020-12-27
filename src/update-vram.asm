@@ -1,11 +1,5 @@
 UpdateVram:
 
-	; RESET ALL BRICKS
-    ; ld      a, 2                    ; number of tiles for bricks
-	; ld      hl, _SCRN1
-	; ld      bc, 20
-	; call    mem_Set    
-
     ; Copy from bricks buffer on RAM to top of Window
     ld      hl, _BRICKS_TOP
     ld      de, _SCRN1

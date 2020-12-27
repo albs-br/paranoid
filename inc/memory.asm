@@ -154,7 +154,7 @@ mem_CopyVRAM::
 	jr	nz,.loop
 	ret
 
-        POPS           ; Pop the current section off of assember stack.
+        POPS           ; Pop the current section off of assembler stack.
 
         ENDC    ;MEMORY1_ASM
 

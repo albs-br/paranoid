@@ -23,3 +23,8 @@ _SPR4_X          DB
 _SPR4_NUM        DB
 _SPR4_ATT        DB
 
+_SPR5_Y          DB
+_SPR5_X          DB
+_SPR5_NUM        DB
+_SPR5_ATT        DB
+

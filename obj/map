@@ -4,10 +4,10 @@ ROM Bank #0 (HOME):
   SECTION: $0050-$0050 ($0001 bytes) ["Timer_Overflow"]
   SECTION: $0058-$0058 ($0001 bytes) ["Serial"]
   SECTION: $0060-$0060 ($0001 bytes) ["p1thru4"]
-  SECTION: $0100-$0E86 ($0D87 bytes) ["start"]
-           $0E3B = VblankInt
-           $0E4C = LCDCInt
-           $0D42 = begin
+  SECTION: $0100-$0ECA ($0DCB bytes) ["start"]
+           $0E7F = VblankInt
+           $0E90 = LCDCInt
+           $0D86 = begin
            $0179 = StopLCD.wait
            $01C4 = Delay
            $01C9 = Delay.loop
@@ -21,55 +21,57 @@ ROM Bank #0 (HOME):
            $0186 = ClearRAM
            $0191 = ClearVRAM
            $019C = ClearOAM
-           $0540 = FontsTile
-           $0D6B = Tiles
-           $0E3B = EndTiles
-           $029D = GameInit.notSetTile8
-           $0294 = GameInit.loop1
-           $0D63 = Title
-           $0D6B = TitleEnd
-           $02D3 = InitVariables
+           $0584 = FontsTile
+           $0DAF = Tiles
+           $0E7F = EndTiles
+           $02A2 = GameInit.notSetTile8
+           $0299 = GameInit.loop1
+           $0DA7 = Title
+           $0DAF = TitleEnd
+           $02D8 = InitVariables
            $01A7 = FadeIn
-           $0338 = BackgroundScroll
-           $0333 = WindowScroll.resetRWX
-           $0335 = WindowScroll.notResetRWX
-           $0346 = BackgroundScroll.scrollUpLeft
-           $041F = UpdateBallPosition
-           $0392 = UpdateItemPosition
-           $048C = CheckCollision_Ball_Paddle
-           $04BB = CheckCollision_Ball_Item
-           $0414 = UpdateItemPosition.return
-           $03DA = UpdateItemPosition.isAlive
-           $03C8 = UpdateItemPosition.hideItem
-           $03C0 = UpdateItemPosition.itemSprNumber255
-           $03F2 = UpdateItemPosition.bounceLeft
-           $0403 = UpdateItemPosition.bounceRight
-           $044A = UpdateBallPosition.checkBrickHit
-           $0488 = UpdateBallPosition.ballLost
-           $046A = UpdateBallPosition.bounceLeft
-           $0479 = UpdateBallPosition.bounceRight
-           $0506 = CheckCollision_8x8_8x24
-           $04AC = CheckCollision_Ball_Paddle.bounceSideOfPaddle
-           $04C3 = CheckCollision_Ball_Item.continue
-           $0523 = CheckCollision_8x8_8x8
-           $04EB = CheckCollision_Ball_Item.bounceBottomOfItem
-           $0500 = ItemWasHit
-           $0510 = CheckCollision_8x8_8x24.x1IsLarger
-           $0516 = CheckCollision_8x8_8x24.checkVerticalCollision
-           $051D = CheckCollision_8x8_8x24.y1IsLarger
-           $052D = CheckCollision_8x8_8x8.x1IsLarger
-           $0533 = CheckCollision_8x8_8x8.checkVerticalCollision
-           $053A = CheckCollision_8x8_8x8.y1IsLarger
+           $0318 = InitVariables.InitItem
+           $0345 = BackgroundScroll
+           $0340 = WindowScroll.resetRWX
+           $0342 = WindowScroll.notResetRWX
+           $0353 = BackgroundScroll.scrollUpLeft
+           $03B4 = UpdateItemPosition
+           $0446 = UpdateBallPosition
+           $04B8 = CheckCollision_Ball_Paddle
+           $0437 = UpdateItemPosition.return
+           $03FD = UpdateItemPosition.isAlive
+           $03EB = UpdateItemPosition.hideItem
+           $03E3 = UpdateItemPosition.itemSprNumber255
+           $0415 = UpdateItemPosition.bounceLeft
+           $0426 = UpdateItemPosition.bounceRight
+           $04E7 = CheckCollision_Ball_Item
+           $0471 = UpdateBallPosition.checkBrickHit
+           $04B4 = UpdateBallPosition.ballLost
+           $0496 = UpdateBallPosition.bounceLeft
+           $04A5 = UpdateBallPosition.bounceRight
+           $054A = CheckCollision_8x8_8x24
+           $04D8 = CheckCollision_Ball_Paddle.bounceSideOfPaddle
+           $04F9 = CheckCollision_Ball_Item.continue
+           $0567 = CheckCollision_8x8_8x8
+           $0539 = CheckCollision_Ball_Item.return
+           $0525 = CheckCollision_Ball_Item.bounceBottomOfItem
+           $0544 = ItemWasHit
+           $0554 = CheckCollision_8x8_8x24.x1IsLarger
+           $055A = CheckCollision_8x8_8x24.checkVerticalCollision
+           $0561 = CheckCollision_8x8_8x24.y1IsLarger
+           $0571 = CheckCollision_8x8_8x8.x1IsLarger
+           $0577 = CheckCollision_8x8_8x8.checkVerticalCollision
+           $057E = CheckCollision_8x8_8x8.y1IsLarger
            $0212 = GameInit
-           $0D4A = GameLoop
+           $0D8E = GameLoop
            $01DE = ReadInput
-           $037E = GameLogic
-           $0318 = UpdateVram
-           $034F = UpdateOAMRam
-           $0E5A = LCDCInt.LYCequalLY
-           $0E82 = LCDCInt.reti
-           $0E73 = LCDCInt.startOfBottomWindow
-           $0E66 = LCDCInt.endOfTopWindow
+           $039D = GameLogic
+           $0325 = UpdateVram
+           $035C = UpdateOAMRam
+           $0E9E = LCDCInt.LYCequalLY
+           $0EC6 = LCDCInt.reti
+           $0EB7 = LCDCInt.startOfBottomWindow
+           $0EAA = LCDCInt.endOfTopWindow
   SECTION: $0061-$00B6 ($0056 bytes) ["Memory1 Code"]
            $0066 = mem_Set.skip
            $0065 = mem_Set.loop
@@ -86,10 +88,10 @@ ROM Bank #0 (HOME):
            $007B = mem_CopyMono
            $00A1 = mem_CopyVRAM
            $006D = mem_Copy
-    SLACK: $321A bytes
+    SLACK: $31D6 bytes
 
 WRAM Bank #0:
-  SECTION: $C000-$C026 ($0027 bytes) ["RAM"]
+  SECTION: $C000-$C02B ($002C bytes) ["RAM"]
            $C000 = _JOYPAD_STATE
            $C001 = _PADDLE_X
            $C006 = _COUNTER
@@ -99,18 +101,19 @@ WRAM Bank #0:
            $C004 = _BALL_DELTA_X
            $C005 = _BALL_DELTA_Y
            $C00D = _ITEM_1_X
+           $C012 = _ITEM_2_X
+           $C018 = _BRICKS_TOP
            $C00E = _ITEM_1_Y
-           $C00F = _ITEM_1_DELTA_X
-           $C010 = _ITEM_1_STATE
            $C011 = _ITEM_1_SPR_NUMBER
-           $C013 = _BRICKS_TOP
+           $C013 = _ITEM_2_Y
+           $C016 = _ITEM_2_SPR_NUMBER
            $C008 = _ITEM_TEMP_X
            $C00B = _ITEM_TEMP_STATE
            $C00C = _ITEM_TEMP_SPR_NUMBER
            $C009 = _ITEM_TEMP_Y
            $C00A = _ITEM_TEMP_DELTA_X
-           $C012 = VblankFlag
-    SLACK: $0FD9 bytes
+           $C017 = VblankFlag
+    SLACK: $0FD4 bytes
 
 WRAM Bank #1:
   EMPTY
@@ -140,7 +143,7 @@ VRAM Bank #1:
   EMPTY
 
 OAM:
-  SECTION: $FE00-$FE13 ($0014 bytes) ["OAMRAM"]
+  SECTION: $FE00-$FE17 ($0018 bytes) ["OAMRAM"]
            $FE00 = _SPR0_Y
            $FE04 = _SPR1_Y
            $FE08 = _SPR2_Y
@@ -153,6 +156,7 @@ OAM:
            $FE0E = _SPR3_NUM
            $FE0F = _SPR3_ATT
            $FE13 = _SPR4_ATT
+           $FE17 = _SPR5_ATT
            $FE01 = _SPR0_X
            $FE05 = _SPR1_X
            $FE09 = _SPR2_X
@@ -161,7 +165,10 @@ OAM:
            $FE11 = _SPR4_X
            $FE10 = _SPR4_Y
            $FE12 = _SPR4_NUM
-    SLACK: $008C bytes
+           $FE15 = _SPR5_X
+           $FE14 = _SPR5_Y
+           $FE16 = _SPR5_NUM
+    SLACK: $0088 bytes
 
 HRAM:
   EMPTY

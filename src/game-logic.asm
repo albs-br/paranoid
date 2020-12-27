@@ -11,17 +11,21 @@ GameLogic:
     inc     [hl]
 
     ld      hl, _ITEM_1_X
-    call    UpdateBallPosition
-
     call    UpdateItemPosition
+    ; call    CheckCollision_Ball_Item
+
+    ld      hl, _ITEM_2_X
+    call    UpdateItemPosition
+
+    call    UpdateBallPosition
     call    CheckCollision_Ball_Paddle
-    call    CheckCollision_Ball_Item
 
     ret
 
 
 ; input: HL: addr of first property
 UpdateItemPosition:
+    push    hl                              ; save HL to use on collision check
 
     ; Copy properties from HL to temp variables
     push    hl
@@ -112,11 +116,15 @@ UpdateItemPosition:
 .return:
     ; Copy properties back from temp variables to HL
     ld      hl, _ITEM_TEMP_X
-    pop     de
+    pop     de                              ; item addr
     ld      bc, NUM_PROPERTIES_ITEM
     call    mem_Copy                        ; copy BC bytes from HL to DE
 
+    pop     hl
+    call    CheckCollision_Ball_Item
+
     ret
+
 
     
 UpdateBallPosition:
@@ -159,22 +167,13 @@ UpdateBallPosition:
     srl     a
     srl     a
 
-	; RESET ALL BRICKS
-    ; ld      a, 1                    ; number of tiles for bricks
-	; ld      hl, _BRICKS_TOP
-	; ld      bc, 20
-	; call    mem_Set                 ; Writes BC times the value in A, starting in HL
-
     ; change brick at the place
 	ld	    hl, _BRICKS_TOP
-    ; ld      bc, 0
-    ; ld      c, a
-    ; add     hl, bc          ; add hl, a
+    ld      bc, 0
+    ld      c, a
+    add     hl, bc          ; add hl, a
 	ld	    a, 0            ; tile number
     ld      [hl], a
-	; ld	    bc, 1
-	; call	mem_Set
-    ;ret
 
 .bounceTop:
     ld      a, FIRST_LINE + 8   ;bottom of bricks
@@ -270,8 +269,14 @@ CheckCollision_Ball_Paddle:
 
 CheckCollision_Ball_Item:
 
+    ; Copy properties from HL to temp variables
+    push    hl
+    ld      de, _ITEM_TEMP_X
+    ld      bc, NUM_PROPERTIES_ITEM
+    call    mem_Copy                        ; copy BC bytes from HL to DE
+
     ; check if the item is already dead or in death animation
-    ld      a, [_ITEM_1_STATE]
+    ld      a, [_ITEM_TEMP_STATE]
     cp      FRAMES_ITEM_DEATH_ANIMATION
     jp      z, .continue
 
@@ -280,15 +285,15 @@ CheckCollision_Ball_Item:
     ld      b, a
     ld      a, [_BALL_Y]
     ld      c, a
-    ld      a, [_ITEM_1_X]
+    ld      a, [_ITEM_TEMP_X]
     ld      d, a
-    ld      a, [_ITEM_1_Y]
+    ld      a, [_ITEM_TEMP_Y]
     ld      e, a
     call    CheckCollision_8x8_8x8
-    ret      nc
+    jp      nc, .return
     
     ; Collision between ball and item
-    ld      a, [_ITEM_1_Y]
+    ld      a, [_ITEM_TEMP_Y]
     ld      b, a
     ld      a, [_BALL_Y]
     cp      b
@@ -304,7 +309,7 @@ CheckCollision_Ball_Item:
 
     call    ItemWasHit
 
-    ret
+    jp      .return
 
 .bounceBottomOfItem:
     ld      a, [_BALL_DELTA_Y]
@@ -315,11 +320,18 @@ CheckCollision_Ball_Item:
     ld      [_BALL_DELTA_Y], a
 
     ;ld      a, PADDLE_Y + BALL_HEIGHT
-    ld      a, [_ITEM_1_Y]
+    ld      a, [_ITEM_TEMP_Y]
     add     ITEM_HEIGHT
     ld      [_BALL_Y], a
 
     call    ItemWasHit
+
+.return:
+    ; Copy properties back from temp variables to HL
+    ld      hl, _ITEM_TEMP_X
+    pop     de                              ; item addr
+    ld      bc, NUM_PROPERTIES_ITEM
+    call    mem_Copy                        ; copy BC bytes from HL to DE
 
     ret
 
@@ -327,7 +339,7 @@ CheckCollision_Ball_Item:
 
 ItemWasHit:
     ld      a, FRAMES_ITEM_DEATH_ANIMATION - 1
-    ld      [_ITEM_1_STATE], a
+    ld      [_ITEM_TEMP_STATE], a
     ret
 
 WIDTH1      EQU 8

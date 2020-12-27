@@ -17,24 +17,38 @@ InitVariables:
     ld      a, -2
     ld      [_BALL_DELTA_Y], a  
 
+    ld      hl, _ITEM_1_X
     ld      a, 8
-    ld      [_ITEM_1_X], a
-    ld      a, 32
-    ld      [_ITEM_1_Y], a
+    ld      b, 32
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord
 
-    ld      a, -1
-    ld      [_ITEM_1_DELTA_X], a
-
-    ld      a, FRAMES_ITEM_DEATH_ANIMATION
-    ld      [_ITEM_1_STATE], a
-
-    ld      a, 12
-    ld      [_ITEM_1_SPR_NUMBER], a
+    ld      hl, _ITEM_2_X
+    ld      a, 24
+    ld      b, 48
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord
 
 
 	ld      a, 1                    ; number of tiles for bricks
 	ld      hl, _BRICKS_TOP
 	ld      bc, 20
 	call    mem_Set                 ; Writes BC times the value in A, starting in HL
+
+    ret
+
+
+.InitItem:
+    ;ld      a, 8
+    ld      [hl+], a                            ; _ITEM_n_X
+    ld      a, b
+    ld      [hl+], a                            ; _ITEM_n_Y
+
+    ld      a, -1
+    ld      [hl+], a                            ; _ITEM_n_DELTA_X
+
+    ld      a, FRAMES_ITEM_DEATH_ANIMATION
+    ld      [hl+], a                            ; _ITEM_n_STATE
+
+    ld      a, 12
+    ld      [hl], a                            ; _ITEM_n_SPR_NUMBER
 
     ret
