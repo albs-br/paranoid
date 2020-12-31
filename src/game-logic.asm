@@ -302,6 +302,7 @@ CheckCollision_Ball_Item:
     ld      a, [_ITEM_TEMP_STATE]
     cp      FRAMES_ITEM_DEATH_ANIMATION
     jp      z, .continue
+    jp      .return
 
 .continue:
     ld      a, [_BALL_X]
@@ -317,11 +318,12 @@ CheckCollision_Ball_Item:
     
     ; Collision between ball and item
     ld      a, [_ITEM_TEMP_Y]
+    add     ITEM_HEIGHT/2
     ld      b, a
     ld      a, [_BALL_Y]
     cp      b
-    jp      nc, .bounceBottomOfItem                   ; if a >= n
-    ;jp      .bounceTopOfItem
+    jp      nc, .bounceBottomOfItem                   ; if _BALL_Y >= _ITEM_TEMP_Y + 4
+    ;jp      .bounceTopOfItem                         ; if a < n
 
 .bounceTopOfItem:
     ld      a, -2
@@ -335,6 +337,7 @@ CheckCollision_Ball_Item:
     jp      .return
 
 .bounceBottomOfItem:
+    ;jp .bounceBottomOfItem
     ld      a, [_BALL_DELTA_Y]
     ; emulate neg instruction
     ld      b, a
