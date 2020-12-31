@@ -15,3 +15,9 @@ ITEM_WIDTH         EQU     8
 ITEM_HEIGHT        EQU     8
 
 FRAMES_ITEM_DEATH_ANIMATION     EQU     40      ; 40: alive, 39-1: animation for death, 0: dead
+
+
+TILE_HEART				EQU		11
+TILE_PACMAN_GHOST		EQU		12
+TILE_DIAMOND			EQU		13
+TILE_MUSHROOM			EQU		14

@@ -21,73 +21,100 @@ InitVariables:
     ld      hl, _ITEM_1_X
     ld      a, 80
     ld      b, 62
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_2_X
-    ld      a, 80
-    ld      b, 42
-    ld      c, 11
+    ld      a, 16
+    ld      b, 72
+    ld      c, TILE_HEART
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_3_X
     ld      a, 16
     ld      b, 52
-    ld      c, 13
+    ld      c, TILE_DIAMOND
     ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_4_X
     ld      a, 32
     ld      b, 52
-    ld      c, 14
+    ld      c, TILE_MUSHROOM
     ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_5_X
     ld      a, 16
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_6_X
     ld      a, 32
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_7_X
     ld      a, 48
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_8_X
     ld      a, 64
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_9_X
     ld      a, 80
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_10_X
     ld      a, 96
     ld      b, 32
-    ld      c, 12
+    ld      c, TILE_PACMAN_GHOST
     ld      d, +1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
+    ld      hl, _ITEM_11_X
+    ld      a, 96
+    ld      b, 42
+    ld      c, TILE_HEART
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_12_X
+    ld      a, 104
+    ld      b, 42
+    ld      c, TILE_HEART
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_13_X
+    ld      a, 112
+    ld      b, 42
+    ld      c, TILE_HEART
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_14_X
+    ld      a, 120
+    ld      b, 42
+    ld      c, TILE_HEART
+    ld      d, +1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
 	ld      a, 1                    ; number of tiles for bricks
 	ld      hl, _BRICKS_TOP
