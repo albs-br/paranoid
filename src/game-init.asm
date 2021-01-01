@@ -195,6 +195,22 @@ GameInit:
 
     call    InitVariables
 
+
+    call    InitSound           ;
+    
+
+
+    ; Setup sound variables
+
+    ; current note
+    xor     a ; same as ld a, 0
+    ld      [_NOTE], a
+
+    ; counter for interval between notes
+    ld      [_CONT_MUS], a
+
+
+
 	call    FadeIn
 
 

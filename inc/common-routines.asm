@@ -133,14 +133,14 @@ Delay:
 CollisionCheck_8b:
         ld      a,d            ; get x2                      [5]
         sub     b              ; calculate x2-x1              [5]
-        jr      c,.other        ; jump if x2<x1                [13/8]
+        jr      c,.other       ; jump if x2<x1                [13/8]
         sub     c              ; compare with size 1          [5]
         ret                    ; return result                [11]
 .other:
         ;neg                    ; use negative value          [10]
         ; emulate neg instruction
         ld      b, a
-        xor     a                               ; same as ld a, 0
+        xor     a              ; same as ld a, 0
         sub     a, b
     
         sub     e              ; compare with size 2          [5]
@@ -172,3 +172,78 @@ CollisionCheck_8b:
 ;         ld      a, [$fff4]          ; get divider register to increase randomness
 ;         add     [hl]
 ;         ret
+
+
+
+
+; Routine to init sound system
+InitSound:
+        ; activate sound system
+        ld              a, %10000000
+        ld              [rNR52], a
+        ; start up volumes, etc
+        ld              a, %01110111            ; SO1 and S02 at max volume
+        ld              [rNR50], a
+ 
+        ld              a, %00000010            ; Channel 2, output by SO1 and S02
+        ld              [rNR51], a
+ 
+        ; channel 2, length 63, cycle 50%
+        ld              a, %10111111
+        ld              [rNR21], a
+        ; channel 2, enveloping, max initial volume, decrescent
+        ld              a, %11110111
+        ld              [rNR22], a
+ 
+        ; channel 2, activated length and high frequency value
+        ld              a, %01000110            ; 1 in bit 6, activated length, and
+        ld              [rNR24], a              ; we wrote %110 in the e3 high bits of frequency
+ 
+        ret
+ 
+ChangeAndPlayNote:
+        ld              a, [_CONT_MUS]          ; check if it's time to play the note or to wait
+        cp              a, _INTERVAL
+        jr              z, .playNote
+        inc             a
+        ld              [_CONT_MUS], a
+        ret
+.playNote:
+        ; reset the counter
+        ld              a, 0
+        ld              [_CONT_MUS], a
+ 
+        ; let's play the note
+        ld              a, [_NOTE]              ; get the note number to be played
+        ld              c, a                    ; save it
+        ld              b, 0
+        ld              hl, Notes               ;
+        add             hl, bc                  ;
+        ld              a, [hl]                 ;
+        ld              [rNR23], a              ; write the note to the register of channel 2 frenquency
+        ; reset the note
+        ld              a, [rNR24]
+        set             7,a
+        ld              [rNR24], a
+ 
+        ; check for end of notes
+        ld              a, c
+        inc             a
+        cp              a, EndNotes - Notes     ;
+        jr              z, .resetNotes
+        ; if not save current note number
+        ld              [_NOTE], a
+        ret
+.resetNotes:
+        ; if yes, reset, save it and return
+        ld              a, 0
+        ld              [_NOTE], a
+        ret
+
+; Music data
+; Vamos a usar la quinta octava, porque sus valores comparten los mismos
+; tres bits superiores, %110, asi no tendremos que variarlos.
+Notes:
+        ; 5ª Octava, Do, Re, Mi, Fa, Sol, La, Si (poniendo $6 en freq hi)
+        DB      $0A, $42, $72, $89, $B2, $D6, $F7
+EndNotes:

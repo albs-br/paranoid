@@ -1,8 +1,8 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.17.0
+; v.0.18.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
-; Nov-Dec 2020
+; Nov/2020 - Jan/2021
 
 INCLUDE "gbhw.inc" ; standard hardware definitions from devrs.com
 
@@ -115,6 +115,8 @@ GameLoop:
 	call 	GameLogic
 	
  	call 	UpdateVram
+
+	call 	ChangeAndPlayNote
 
  	; testing speed
 	; copying n bytes from RAM to VRAM

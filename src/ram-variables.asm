@@ -52,3 +52,15 @@ VblankFlag                 DB
 
 _BRICKS_TOP                DS      20           ; Allocates n bytes
 
+
+
+
+; Sound related vars and constants
+; code adapted from http://wiki.ladecadence.net/doku.php?id=tutorial_de_ensamblador#hola_sonido
+
+; interval between notes constant
+_INTERVAL          EQU             40
+; stores current note number
+_NOTE           DB
+; counter for interval between notes
+_CONT_MUS       DB

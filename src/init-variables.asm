@@ -92,28 +92,28 @@ InitVariables:
     ld      a, 96
     ld      b, 42
     ld      c, TILE_HEART
-    ld      d, +1
+    ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_12_X
     ld      a, 104
     ld      b, 42
     ld      c, TILE_HEART
-    ld      d, +1
+    ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_13_X
     ld      a, 112
     ld      b, 42
     ld      c, TILE_HEART
-    ld      d, +1
+    ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
     ld      hl, _ITEM_14_X
     ld      a, 120
     ld      b, 42
     ld      c, TILE_HEART
-    ld      d, +1
+    ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 
 	ld      a, 1                    ; number of tiles for bricks
