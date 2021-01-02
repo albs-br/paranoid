@@ -12,9 +12,9 @@ InitVariables:
     ld      a, SCREEN_WIDTH/2
     ld      [_BALL_Y], a  
 
-    ld      a, 2
+    ld      a, BALL_SPEED
     ld      [_BALL_DELTA_X], a  
-    ld      a, -2
+    ld      a, -BALL_SPEED
     ld      [_BALL_DELTA_Y], a  
 
 
@@ -113,6 +113,48 @@ InitVariables:
     ld      a, 120
     ld      b, 42
     ld      c, TILE_HEART
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_15_X
+    ld      a, 48
+    ld      b, 52
+    ld      c, TILE_DIAMOND
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_16_X
+    ld      a, 64
+    ld      b, 52
+    ld      c, TILE_DIAMOND
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_17_X
+    ld      a, 80
+    ld      b, 52
+    ld      c, TILE_DIAMOND
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_18_X
+    ld      a, 96
+    ld      b, 52
+    ld      c, TILE_DIAMOND
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_19_X
+    ld      a, 112
+    ld      b, 52
+    ld      c, TILE_DIAMOND
+    ld      d, -1
+    call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
+
+    ld      hl, _ITEM_20_X
+    ld      a, 128
+    ld      b, 52
+    ld      c, TILE_DIAMOND
     ld      d, -1
     call    .InitItem               ; HL: item addr, A: x coord, B: y coord, C: type, D: delta X
 

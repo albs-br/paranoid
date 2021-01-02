@@ -5,6 +5,8 @@ FIRST_LINE         EQU     16
 LAST_COLUMN        EQU     SCREEN_WIDTH + FIRST_COLUMN
 LAST_LINE          EQU     SCREEN_HEIGHT + FIRST_LINE
 
+BALL_SPEED         EQU     1
+
 BALL_WIDTH         EQU     8
 BALL_HEIGHT        EQU     8
 

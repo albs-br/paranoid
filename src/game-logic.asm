@@ -268,7 +268,7 @@ CheckCollision_Ball_Paddle:
     ;jp      .bounceTopOfPaddle
 
 .bounceTopOfPaddle:
-    ld      a, -2
+    ld      a, -BALL_SPEED
     ld      [_BALL_DELTA_Y], a
 
     ret
@@ -326,7 +326,7 @@ CheckCollision_Ball_Item:
     ;jp      .bounceTopOfItem                         ; if a < n
 
 .bounceTopOfItem:
-    ld      a, -2
+    ld      a, -BALL_SPEED
     ld      [_BALL_DELTA_Y], a
 
     ; ld      a, [_ITEM_1_Y]

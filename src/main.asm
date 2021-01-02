@@ -1,5 +1,5 @@
 ; Paranoid (Arkanoid clone) for Gameboy
-; v.0.18.0
+; v.0.19.0
 ; Proof of concept for GB homebrew game development
 ; Author: André Baptista (www.andrebaptista.com.br)
 ; Nov/2020 - Jan/2021

@@ -14,17 +14,19 @@ _IS_PAUSED              DB
 
 
 ; Items
-NUM_ITEMS                  EQU     14
-NUM_PROPERTIES_ITEM        EQU     6
-
+StartItemProperties:
 _ITEM_TEMP_X               DB
 _ITEM_TEMP_Y               DB
 _ITEM_TEMP_DELTA_X         DB
 _ITEM_TEMP_STATE           DB
 _ITEM_TEMP_TYPE            DB
 _ITEM_TEMP_SPR_NUMBER      DB
+EndItemProperties:
+
+NUM_PROPERTIES_ITEM        EQU     EndItemProperties - StartItemProperties
 
 
+StartItems:
 _ITEM_1_X                  DS       NUM_PROPERTIES_ITEM
 ; _ITEM_1_X                  DB
 ; _ITEM_1_Y                  DB
@@ -46,6 +48,15 @@ _ITEM_11_X                 DS       NUM_PROPERTIES_ITEM
 _ITEM_12_X                 DS       NUM_PROPERTIES_ITEM
 _ITEM_13_X                 DS       NUM_PROPERTIES_ITEM
 _ITEM_14_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_15_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_16_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_17_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_18_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_19_X                 DS       NUM_PROPERTIES_ITEM
+_ITEM_20_X                 DS       NUM_PROPERTIES_ITEM
+EndItems:
+
+NUM_ITEMS                  EQU     (EndItems - StartItems) / NUM_PROPERTIES_ITEM
 
 
 VblankFlag                 DB
